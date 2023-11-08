@@ -5,13 +5,10 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Autos;
-import frc.robot.commands.Drive;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.ShooterCMDFalcon;
-import frc.robot.commands.ShooterCMDNeo;
+import frc.robot.commands.*;
 import frc.robot.subsystems.DriveBaseHenryE;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -35,7 +32,8 @@ public class RobotContainer {
   private ShooterCMDFalcon FalconShooter = new ShooterCMDFalcon(SubShooterSystem, 0);
   private ShooterCMDNeo NeoShooter = new ShooterCMDNeo(SubShooterSystem, 0);
 
-
+  private IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+  private SpinIntake intakeCommand = new SpinIntake(intakeSubsystem);
 
   DriveBaseHenryE driveBase = new DriveBaseHenryE();
   Drive driveCommand = new Drive(driveBase, m_driverController.getLeftY());
@@ -43,10 +41,11 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     driveBase.setDefaultCommand(driveCommand);
+
+    new Trigger(() -> m_driverController.getRightTriggerAxis() > 0.5).whileTrue(intakeCommand);
+
     // Configure the trigger bindings
     configureBindings();
-
-    
   }
  
   /**
