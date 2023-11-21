@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.*;
 import frc.robot.subsystems.DriveBaseHenryE;
@@ -33,7 +34,7 @@ public class RobotContainer {
   private ShooterCMDNeo NeoShooter = new ShooterCMDNeo(SubShooterSystem, 0);
 
   private IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
-  private SpinIntake intakeCommand = new SpinIntake(intakeSubsystem);
+  //private SpinIntake intakeCommand = new SpinIntake(intakeSubsystem);
 
   DriveBaseHenryE driveBase = new DriveBaseHenryE();
   Drive driveCommand = new Drive(driveBase, m_driverController.getLeftY());
@@ -42,7 +43,7 @@ public class RobotContainer {
   public RobotContainer() {
     driveBase.setDefaultCommand(driveCommand);
 
-    new Trigger(() -> m_driverController.getRightTriggerAxis() > 0.5).whileTrue(intakeCommand);
+    //new Trigger(() -> m_driverController.getRightTriggerAxis() > 0.5).whileTrue(intakeCommand);
 
     // Configure the trigger bindings
     configureBindings();
@@ -62,13 +63,14 @@ public class RobotContainer {
     new Trigger(m_exampleSubsystem::exampleCondition)
         .onTrue(new ExampleCommand(m_exampleSubsystem));
 
-    new Trigger(m_driverController.a()).whileTrue(FalconShooter);
-    new Trigger(m_driverController.y()).whileTrue(NeoShooter);
-
+    //new Trigger(m_driverController.a()).whileTrue(FalconShooter);
+    //new Trigger(m_driverController.y()).whileTrue(NeoShooter);
+    new Trigger(m_driverController.rightTrigger().whileTrue(new ParallelCommandGroup(FalconShooter, NeoShooter)));
+    //new Trigger(m_driverController.y()).whileTrue(new ShooterCMDBetter(SubShooterSystem, 0));
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+    //new Trigger(m_driverController.b()).whileTrue(new AbortNeo(SubShooterSystem, 0));
   }
 
   /**

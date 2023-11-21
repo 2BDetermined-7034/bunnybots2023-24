@@ -12,6 +12,7 @@ public class Drive extends CommandBase{
     public Drive(DriveBaseHenryE driveBase, double left) {
         this.driveBase = driveBase; 
         this.left = left;
+        addRequirements(driveBase);
     }
 
     @Override
