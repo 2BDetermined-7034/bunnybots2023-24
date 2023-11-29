@@ -14,6 +14,7 @@ import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.subsystems.Indexer;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -35,6 +36,9 @@ public class RobotContainer {
 
   private IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   //private SpinIntake intakeCommand = new SpinIntake(intakeSubsystem);
+
+  private Indexer indexerSubsystem = new Indexer();
+  private IndexerCommand indexerCommand = new IndexerCommand(indexerSubsystem);
 
   DriveBaseHenryE driveBase = new DriveBaseHenryE();
   Drive driveCommand = new Drive(driveBase, m_driverController.getLeftY());
@@ -71,6 +75,8 @@ public class RobotContainer {
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     //new Trigger(m_driverController.b()).whileTrue(new AbortNeo(SubShooterSystem, 0));
+
+
   }
 
   /**

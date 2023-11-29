@@ -25,4 +25,10 @@ public final class Constants {
     public static final double spinMotorSpeed = 1.0;
 
   }
+
+  public static class IndexerConstants {
+    public static final int motorID = 5;
+    public static final int digitalInput=1;
+    public static final int digitalInput2 = 2;
+  }
 }

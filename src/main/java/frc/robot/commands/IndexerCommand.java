@@ -11,10 +11,10 @@ import frc.robot.subsystems.Indexer;
 /** An example command that uses an example subsystem. */
 public class IndexerCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final Indexer m_subsystem;
+  private final Indexer indexer;
 
   public IndexerCommand(Indexer subsystem) {
-    m_subsystem = subsystem;
+    indexer = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
   }
@@ -22,13 +22,17 @@ public class IndexerCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    if (Indexer)
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    indexer.run(0.34);
 
+    if (indexer.ObjectsTaken >= 4) {
+      indexer.run(0);
+    }
   }
 
   // Called once the command ends or is interrupted.

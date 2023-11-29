@@ -5,19 +5,31 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.CANSparkMax;
 
+import static frc.robot.Constants.IndexerConstants.*;
+
 public class Indexer extends SubsystemBase {
-    public int ObjectsTaken = 0;
+    public int ObjectsTaken = 1;
     DigitalInput DIO;
     CANSparkMax Motor;
-    DigitalInput DIS;
+    DigitalInput DIOb;
 
     public Indexer() {
-        DIO = new DigitalInput(1);
-        DIS = new DigitalInput(2);
+        DIO = new DigitalInput(digitalInput);
+        DIOb = new DigitalInput(digitalInput2);
 
-        Motor = new CANSparkMax(5,CANSparkMaxLowLevel.MotorType.kBrushless);
+        Motor = new CANSparkMax(motorID, CANSparkMaxLowLevel.MotorType.kBrushless);
         Motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
+    }
+
+    public void updateAmount() {
+        //work in progress
+    }
+    public void run(double speed) {
+        if (ObjectsTaken < 6) {
+            ++ObjectsTaken;
+            Motor.set(speed);
+        }
     }
 
     @Override
