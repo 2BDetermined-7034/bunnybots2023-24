@@ -29,7 +29,7 @@ public class IndexerCommand extends CommandBase {
   @Override
   public void execute() {
     indexer.run(0.34);
-
+    indexer.updateAmount();
     if (indexer.ObjectsTaken >= 4) {
       indexer.run(0);
     }

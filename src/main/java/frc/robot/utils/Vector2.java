@@ -1,5 +1,7 @@
 package frc.robot.utils;
 
+import edu.wpi.first.math.geometry.Translation2d;
+
 public class Vector2 {
     public double x, y;
 
@@ -11,6 +13,15 @@ public class Vector2 {
 
     public Vector2(double v) {
         this.x = v; this.y = v;
+    }
+
+    public Vector2(Translation2d vector) {
+        this.x = vector.getX();
+        this.y = vector.getY();
+    }
+
+    public Translation2d toTranslation2d() {
+        return new Translation2d(x, y);
     }
 
     public Vector2 add(Vector2 vector) {

@@ -23,6 +23,11 @@ public class Shooter extends SubsystemBase {
     private double neoSpeed;
     private double falconSpeed;
 
+    /**Shooter function;
+     * contains all the things the shooter build (and even the code, obviously) needs.
+     * Objects: [CANSparkMax Neo, CANSparkMax Falcon]
+     * Command Files: [ShooterCMDNeo.java, ShooterCMDFalcon.java in the commands folder.]
+     */
     public Shooter() {
         neo = new CANSparkMax(3, CANSparkMaxLowLevel.MotorType.kBrushless);
         m1 = new WPI_TalonSRX(2);

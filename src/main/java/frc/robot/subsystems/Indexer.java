@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 import com.revrobotics.CANSparkMaxLowLevel;
-import edu.wpi.first.wpilibj.CAN;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.CANSparkMax;
@@ -8,27 +7,46 @@ import com.revrobotics.CANSparkMax;
 import static frc.robot.Constants.IndexerConstants.*;
 
 public class Indexer extends SubsystemBase {
-    public int ObjectsTaken = 1;
-    DigitalInput DIO;
-    CANSparkMax Motor;
-    DigitalInput DIOb;
-
+    public int ObjectsTaken = 0;
+    DigitalInput entrance;
+    CANSparkMax belt_motor;
+    DigitalInput exit;
+    boolean buffer = false;
+    boolean buffer2 = false;
     public Indexer() {
-        DIO = new DigitalInput(digitalInput);
-        DIOb = new DigitalInput(digitalInput2);
+        entrance = new DigitalInput(digitalInput);
+        exit = new DigitalInput(digitalInput2);
 
-        Motor = new CANSparkMax(motorID, CANSparkMaxLowLevel.MotorType.kBrushless);
-        Motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        belt_motor = new CANSparkMax(motorID, CANSparkMaxLowLevel.MotorType.kBrushless);
+        belt_motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
     }
-
+    /**Indexer function;
+     * updates the current amount of the objects taken.
+     * void function, doesn't contain any returns.
+     */
     public void updateAmount() {
-        //work in progress
+        if (buffer && !entrance.get()){
+            ++ObjectsTaken;
+            buffer = false;
+        }
+        if (!buffer && entrance.get()) {
+            buffer = true;
+        }
+        buffer = false;
+        if(!exit.get() && buffer2){
+            --ObjectsTaken;
+            buffer2 = false;
+        }
+        if(exit.get() && !buffer2){
+            buffer2 = true;
+        }
     }
+
     public void run(double speed) {
         if (ObjectsTaken < 6) {
             ++ObjectsTaken;
-            Motor.set(speed);
+            belt_motor.set(speed);
         }
     }
 
