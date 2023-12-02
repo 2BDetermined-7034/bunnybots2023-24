@@ -4,13 +4,17 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Autos;
-import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.*;
+import frc.robot.subsystems.DriveBaseHenryE;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.subsystems.Indexer;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -26,12 +30,29 @@ public class RobotContainer {
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
+  private Shooter SubShooterSystem = new Shooter();
+  private ShooterCMDFalcon FalconShooter = new ShooterCMDFalcon(SubShooterSystem, 0);
+  private ShooterCMDNeo NeoShooter = new ShooterCMDNeo(SubShooterSystem, 0);
+
+  private IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+  //private SpinIntake intakeCommand = new SpinIntake(intakeSubsystem);
+
+  private Indexer indexerSubsystem = new Indexer();
+  private IndexerCommand indexerCommand = new IndexerCommand(indexerSubsystem);
+
+  DriveBaseHenryE driveBase = new DriveBaseHenryE();
+  Drive driveCommand = new Drive(driveBase, m_driverController.getLeftY());
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    driveBase.setDefaultCommand(driveCommand);
+
+    //new Trigger(() -> m_driverController.getRightTriggerAxis() > 0.5).whileTrue(intakeCommand);
+
     // Configure the trigger bindings
     configureBindings();
   }
-
+ 
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
    * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
@@ -46,9 +67,16 @@ public class RobotContainer {
     new Trigger(m_exampleSubsystem::exampleCondition)
         .onTrue(new ExampleCommand(m_exampleSubsystem));
 
+    //new Trigger(m_driverController.a()).whileTrue(FalconShooter);
+    //new Trigger(m_driverController.y()).whileTrue(NeoShooter);
+    new Trigger(m_driverController.rightTrigger().whileTrue(new ParallelCommandGroup(FalconShooter, NeoShooter)));
+    //new Trigger(m_driverController.y()).whileTrue(new ShooterCMDBetter(SubShooterSystem, 0));
+
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+    //new Trigger(m_driverController.b()).whileTrue(new AbortNeo(SubShooterSystem, 0));
+
+
   }
 
   /**

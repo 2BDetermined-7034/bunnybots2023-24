@@ -16,4 +16,19 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
+
+  public static class Intake {
+    public static final int liftMotorID = 8;
+    public static final int spinMotorID = 9;
+
+    public static final double liftMotorSpeed = 1.0;
+    public static final double spinMotorSpeed = 1.0;
+
+  }
+
+  public static class IndexerConstants {
+    public static final int motorID = 5;
+    public static final int digitalInput=1;
+    public static final int digitalInput2 = 2;
+  }
 }
