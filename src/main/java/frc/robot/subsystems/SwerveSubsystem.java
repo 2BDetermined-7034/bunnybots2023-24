@@ -168,7 +168,7 @@ public class SwerveSubsystem extends SubsystemBase implements SubsystemLogging {
     {
         xInput = Math.pow(xInput, 3);
         yInput = Math.pow(yInput, 3);
-        return swerveDrive.swerveController.getTargetSpeeds(xInput, yInput, angle.getRadians(), getHeading().getRadians());
+        return swerveDrive.swerveController.getTargetSpeeds(xInput, yInput, angle.getRadians(), getHeading().getRadians(), 12);
     }
 
     /**
@@ -190,8 +190,8 @@ public class SwerveSubsystem extends SubsystemBase implements SubsystemLogging {
     public void goToZero(){
         double yaw = swerveDrive.getYaw().getRadians();
         SwerveController sc = swerveDrive.getSwerveController();
-        sc.getTargetSpeeds(0, 0, 0, yaw);
-        swerveDrive.drive(new Translation2d(), sc.getTargetSpeeds(0, 0, 0, yaw).omegaRadiansPerSecond * 0.1, true, true);
+        getTargetSpeeds(0.0, 0.0, 0.0, yaw);
+        swerveDrive.drive(new Translation2d(), getTargetSpeeds(0, 0, 0, yaw).omegaRadiansPerSecond * 0.1, true, true);
     }
     public void stop() {
         swerveDrive.lockPose();
