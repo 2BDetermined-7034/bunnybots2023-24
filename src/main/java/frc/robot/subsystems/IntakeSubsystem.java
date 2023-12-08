@@ -21,7 +21,7 @@ public class IntakeSubsystem extends SubsystemBase {
     public IntakeSubsystem() {
         liftMotor = new CANSparkMax(10, CANSparkMaxLowLevel.MotorType.kBrushless);
         spinMotor = new CANSparkMax(20, CANSparkMaxLowLevel.MotorType.kBrushless);
-        //TODO set encoder conversino factor
+        //TODO set encoder conversion factor
         liftMotorEncoder = liftMotor.getEncoder();
         liftpid = new PIDController(0,0,0);
         liftMotorEncoder.setPosition(homePosition);

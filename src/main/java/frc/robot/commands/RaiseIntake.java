@@ -1,21 +1,15 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.subsystems.IntakeSubsystem;
 
-import static frc.robot.Constants.Intake.*;
-
-public class SpinIntake extends CommandBase {
+public class RaiseIntake extends CommandBase {
     IntakeSubsystem intake;
     boolean IntakeActive;
 
-    public SpinIntake(IntakeSubsystem intake, boolean ActiveIntake) {
+    public RaiseIntake(IntakeSubsystem intake, boolean ActiveIntake) {
         this.intake = intake;
         IntakeActive = ActiveIntake;
-
-                    }
     }
 
 

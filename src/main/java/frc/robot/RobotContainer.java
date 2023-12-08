@@ -7,6 +7,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.*;
+import frc.robot.commands.shooter.ShooterCMDFalcon;
+import frc.robot.commands.shooter.ShooterCMDNeo;
 import frc.robot.subsystems.DriveBaseHenryE;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;

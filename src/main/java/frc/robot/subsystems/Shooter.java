@@ -12,9 +12,14 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
+import frc.robot.Constants;
 
+/**
+ * A subsystem, which is specifically for the shooter.
+ * <p> This code is for the shooter build, which is the reason why the motors run.
+ *
+ */
 public class Shooter extends SubsystemBase {
-    /** Creates a new ExampleSubsystem. */
     public CANSparkMax neo;
     public WPI_TalonSRX m1;
     public WPI_TalonSRX m2;
@@ -25,15 +30,15 @@ public class Shooter extends SubsystemBase {
 
     /**Shooter function;
      * contains all the things the shooter build (and even the code, obviously) needs.
-     * Objects: [CANSparkMax Neo, CANSparkMax Falcon]
-     * Command Files: [ShooterCMDNeo.java, ShooterCMDFalcon.java in the commands folder.]
+     * @Objects [CANSparkMax Neo, CANSparkMax Falcon]
+     * @Commands [ShooterCMDNeo.java, ShooterCMDFalcon.java] Located in the <i>commands</i> folder.
      */
     public Shooter() {
-        neo = new CANSparkMax(3, CANSparkMaxLowLevel.MotorType.kBrushless);
-        m1 = new WPI_TalonSRX(2);
+        neo = new CANSparkMax(Constants.ShooterMotorIDs.neoID, CANSparkMaxLowLevel.MotorType.kBrushless);
+        m1 = new WPI_TalonSRX(Constants.ShooterMotorIDs.Motor1ID);
         m1.setNeutralMode(NeutralMode.Brake);
         m1.setInverted(false);
-        m2 = new WPI_TalonSRX(3);
+        m2 = new WPI_TalonSRX(Constants.ShooterMotorIDs.Motor2ID);
         m2.setNeutralMode(NeutralMode.Brake);
         m2.setInverted(true);
         neo.setIdleMode(CANSparkMax.IdleMode.kCoast);

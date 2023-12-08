@@ -1,10 +1,12 @@
 package frc.robot.utils;
 
+import frc.robot.Constants;
+
 public class VectorAngle {
     private double deadZone;
-    private double previousAngle = 0.0;
+    private double previousAngle = Constants.VectorConstants.lastAngle;
     public VectorAngle() {
-        this.deadZone = 0.75;
+        this.deadZone = Constants.VectorConstants.unaliveZone;
     }
     public VectorAngle(double deadZone) {
         this.deadZone = deadZone;

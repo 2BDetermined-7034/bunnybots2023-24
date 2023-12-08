@@ -21,9 +21,10 @@ public class Indexer extends SubsystemBase {
         belt_motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
     }
-    /**Indexer function;
-     * updates the current amount of the objects taken.
-     * void function, doesn't contain any returns.
+    /**Indexer function:<p>
+     * Updates the current amount of the objects taken.
+     * This will change the amount of objects taken due to the signals from the {@link DigitalInput} sensors.
+     *
      */
     public void updateAmount() {
         if (buffer && !entrance.get()){
