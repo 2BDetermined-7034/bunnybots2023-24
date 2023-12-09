@@ -37,7 +37,7 @@ public static class VectorConstants{
 }
   public static class IndexerConstants {
     public static final int motorID = 5;
-    public static final int digitalInput=1;
-    public static final int digitalInput2 = 2;
+    public static final int digitalInputFront =1;
+    public static final int digitalInputBack = 2;
   }
 }

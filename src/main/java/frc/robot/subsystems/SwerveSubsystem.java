@@ -2,10 +2,7 @@ package frc.robot.subsystems;
 
 
 import com.kauailabs.navx.frc.AHRS;
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
-import com.pathplanner.lib.util.PIDConstants;
-import com.pathplanner.lib.util.ReplanningConfig;
+
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -19,7 +16,7 @@ import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.SubsystemLogging;
+import frc.robot.utils.SubsystemLogging;
 import swervelib.SwerveController;
 import swervelib.SwerveDrive;
 import swervelib.parser.SwerveDriveConfiguration;
@@ -32,7 +29,7 @@ import java.io.IOException;
 public class SwerveSubsystem extends SubsystemBase implements SubsystemLogging {
 
     File swerveJsonDirectory = new File(Filesystem.getDeployDirectory(),"swerve/neo");
-    SwerveDrive swerveDrive  = new SwerveParser(swerveJsonDirectory).createSwerveDrive();
+    SwerveDrive swerveDrive  = new SwerveParser(swerveJsonDirectory).createSwerveDrive(14);
     private static final AHRS m_navx = new AHRS(SPI.Port.kMXP, (byte) 200);
 
     private final Field2d field2d;
@@ -90,21 +87,6 @@ public class SwerveSubsystem extends SubsystemBase implements SubsystemLogging {
                 new Pose2d(),
                 VecBuilder.fill(0.1, 0.1, 0.1), // estimator values (x, y, rotation) std-devs
                 VecBuilder.fill(0.5, 0.5, 0.5)
-        );
-
-        AutoBuilder.configureHolonomic(
-                this::getPose, // Robot pose supplier
-                this::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
-                this::getRobotVelocity, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-                this::robotRelativeDrive, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
-                new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
-                        new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
-                        new PIDConstants(5.0, 0.0, 0.0), // Rotation PID constants
-                        4.5, // Max module speed, in m/s
-                        0.4, // Drive base radius in meters. Distance from robot center to furthest module.
-                        new ReplanningConfig() // Default path replanning config. See the API for the options here
-                ),
-                this // Reference to this subsystem to set requirements
         );
     }
 
