@@ -16,7 +16,13 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
+  public static class ShooterMotorIDs {
+    public static final int neoID = 3;
+    public static final int Motor1ID = 2;
+    public static final int Motor2ID = 3;
 
+
+  }
   public static class Intake {
     public static final int liftMotorID = 8;
     public static final int spinMotorID = 9;
@@ -25,10 +31,13 @@ public final class Constants {
     public static final double spinMotorSpeed = 1.0;
 
   }
-
+public static class VectorConstants{
+    public static double lastAngle = 0.0;
+    public static double unaliveZone = .75;
+}
   public static class IndexerConstants {
     public static final int motorID = 5;
-    public static final int digitalInput=1;
-    public static final int digitalInput2 = 2;
+    public static final int digitalInputFront =1;
+    public static final int digitalInputBack = 2;
   }
 }

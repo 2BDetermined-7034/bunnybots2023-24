@@ -14,16 +14,17 @@ public class Indexer extends SubsystemBase {
     boolean buffer = false;
     boolean buffer2 = false;
     public Indexer() {
-        entrance = new DigitalInput(digitalInput);
-        exit = new DigitalInput(digitalInput2);
+        entrance = new DigitalInput(digitalInputFront);
+        exit = new DigitalInput(digitalInputBack);
 
         belt_motor = new CANSparkMax(motorID, CANSparkMaxLowLevel.MotorType.kBrushless);
         belt_motor.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
     }
-    /**Indexer function;
-     * updates the current amount of the objects taken.
-     * void function, doesn't contain any returns.
+    /**Indexer function:<p>
+     * Updates the current amount of the objects taken.
+     * This will change the amount of objects taken due to the signals from the {@link DigitalInput} sensors.
+     *
      */
     public void updateAmount() {
         if (buffer && !entrance.get()){
