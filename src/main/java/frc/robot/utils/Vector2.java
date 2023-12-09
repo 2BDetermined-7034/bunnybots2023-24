@@ -20,6 +20,11 @@ public class Vector2 {
         this.y = vector.getY();
     }
 
+    public Vector2(Vector2 vector) {
+        this.x = vector.x;
+        this.y = vector.y;
+    }
+
     public Translation2d toTranslation2d() {
         return new Translation2d(x, y);
     }

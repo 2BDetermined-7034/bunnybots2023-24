@@ -9,39 +9,45 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import org.littletonrobotics.junction.Logger;
 
+
 import java.util.Arrays;
 
 public interface SubsystemLogging {
+
+    default void log(String key, String val) {
+        Logger.getInstance().recordOutput(String.format("%s/%s", this.getClass().getName().substring(22), key), (val));
+    }
     default void log(String key, boolean val) {
-        Logger.recordOutput(String.format("%s/%s", this.getClass().getName().substring(19), key), (val));
+        Logger.getInstance().recordOutput(String.format("%s/%s", this.getClass().getName().substring(19), key), (val));
     }
     default void log(String key, double val) {
-        Logger.recordOutput(String.format("%s/%s", this.getClass().getName().substring(19), key), (val));
+        Logger.getInstance().recordOutput(String.format("%s/%s", this.getClass().getName().substring(19), key), (val));
     }
     default void log(String key, Pose2d... val) {
-        Logger.recordOutput(String.format("%s/%s", this.getClass().getName().substring(19), key), (val));
+        Logger.getInstance().recordOutput(String.format("%s/%s", this.getClass().getName().substring(19), key), (val));
     }
     default void log(String key, SwerveModulePosition[] val) {
-        Logger.recordOutput(String.format("%s/%s", this.getClass().getName().substring(19), key), Arrays.toString((val)));
+        Logger.getInstance().recordOutput(String.format("%s/%s", this.getClass().getName().substring(19), key), Arrays.toString((val)));
     }
     default void log(String key, SwerveModuleState[] val) {
-        Logger.recordOutput(String.format("%s/%s", this.getClass().getName().substring(19), key), (val));
+        Logger.getInstance().recordOutput(String.format("%s/%s", this.getClass().getName().substring(19), key), (val));
     }
     default void log(String key, ChassisSpeeds val) {
-        Logger.recordOutput(String.format("%s/%s", this.getClass().getName().substring(19), key), String.valueOf((val)));
+        Logger.getInstance().recordOutput(String.format("%s/%s", this.getClass().getName().substring(19), key), String.valueOf((val)));
     }
     default void log(String key, float val) {
-        Logger.recordOutput(String.format("%s/%s", this.getClass().getName().substring(19), key), (val));
+        Logger.getInstance().recordOutput(String.format("%s/%s", this.getClass().getName().substring(19), key), (val));
     }
     default void log(String key, Translation2d val) {
-        Logger.recordOutput(String.format("%s/%s", this.getClass().getName().substring(19), key), String.valueOf((val)));
+        Logger.getInstance().recordOutput(String.format("%s/%s", this.getClass().getName().substring(19), key), String.valueOf((val)));
     }
     default void log(String key, Transform3d val) {
-        Logger.recordOutput(String.format("%s/%s", this.getClass().getName().substring(19), key), String.valueOf((val)));
+        Logger.getInstance().recordOutput(String.format("%s/%s", this.getClass().getName().substring(19), key), String.valueOf((val)));
     }
     default void log(String key, Rotation2d val) {
-        Logger.recordOutput(String.format("%s/%s", this.getClass().getName().substring(19), key), String.valueOf((val)));
+        Logger.getInstance().recordOutput(String.format("%s/%s", this.getClass().getName().substring(19), key), String.valueOf((val)));
     }
+
 
 
 }

@@ -19,8 +19,8 @@ public class IntakeSubsystem extends SubsystemBase {
     public double activePosition = 90;
     double goalPosition = homePosition;
     public IntakeSubsystem() {
-        liftMotor = new CANSparkMax(10, CANSparkMaxLowLevel.MotorType.kBrushless);
-        spinMotor = new CANSparkMax(20, CANSparkMaxLowLevel.MotorType.kBrushless);
+        liftMotor = new CANSparkMax(liftMotorID, CANSparkMaxLowLevel.MotorType.kBrushless);
+        spinMotor = new CANSparkMax(spinMotorID, CANSparkMaxLowLevel.MotorType.kBrushless);
         //TODO set encoder conversion factor
         liftMotorEncoder = liftMotor.getEncoder();
         liftpid = new PIDController(0,0,0);

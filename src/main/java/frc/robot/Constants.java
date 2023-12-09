@@ -40,4 +40,14 @@ public static class VectorConstants{
     public static final int digitalInputFront =1;
     public static final int digitalInputBack = 2;
   }
+
+  public static class Vision {
+    public static final double limeLightMountAngleDegrees = 0;
+    public static final double goalHeighInches = 53.75;
+    public static final double limeligtLensHeighInches = 0;
+
+    public static final double limeLightHorizontalFOV = 59.6;
+    public static final double limeLightVerticalFOV = 49.7;
+    public static final double distanceScale = 1.0;
+  }
 }
