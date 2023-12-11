@@ -30,6 +30,10 @@ public final class Constants {
     public static final double liftMotorSpeed = 1.0;
     public static final double spinMotorSpeed = 1.0;
 
+    //TODO encoder positions for intake
+    public static final double homePosition = 0;
+    public static final double activePosition = 90;
+
   }
 public static class VectorConstants{
     public static double lastAngle = 0.0;

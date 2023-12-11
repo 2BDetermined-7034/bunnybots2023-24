@@ -11,7 +11,7 @@ import frc.robot.commands.shooter.ShooterCMDFalcon;
 import frc.robot.commands.shooter.ShooterCMDNeo;
 import frc.robot.subsystems.DriveBaseHenryE;
 import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -36,7 +36,7 @@ public class RobotContainer {
   private ShooterCMDFalcon FalconShooter = new ShooterCMDFalcon(SubShooterSystem, 0);
   private ShooterCMDNeo NeoShooter = new ShooterCMDNeo(SubShooterSystem, 0);
 
-  private IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+  private Intake intake = new Intake();
   //private SpinIntake intakeCommand = new SpinIntake(intakeSubsystem);
 
   private Indexer indexerSubsystem = new Indexer();
