@@ -16,12 +16,12 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
-  public static class ShooterMotorIDs {
+  public static class Shooter {
     public static final int neoID = 3;
     public static final int Motor1ID = 2;
     public static final int Motor2ID = 3;
-
-
+    public static final double falconSpeed = 0.25;
+    public static final double neoSpeed = 0.25;
   }
   public static class Intake {
     public static final int liftMotorID = 8;

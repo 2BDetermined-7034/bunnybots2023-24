@@ -24,7 +24,6 @@ public class Shooter extends SubsystemBase {
     public WPI_TalonSRX m1;
     public WPI_TalonSRX m2;
     public MotorControllerGroup mgroup;
-    public MotorControllerGroup mgroup2;
     private double neoSpeed;
     private double falconSpeed;
 
@@ -34,28 +33,26 @@ public class Shooter extends SubsystemBase {
      * @Commands [ShooterCMDNeo.java, ShooterCMDFalcon.java] Located in the <i>commands</i> folder.
      */
     public Shooter() {
-        neo = new CANSparkMax(Constants.ShooterMotorIDs.neoID, CANSparkMaxLowLevel.MotorType.kBrushless);
-        m1 = new WPI_TalonSRX(Constants.ShooterMotorIDs.Motor1ID);
-        m1.setNeutralMode(NeutralMode.Brake);
-        m1.setInverted(false);
-        m2 = new WPI_TalonSRX(Constants.ShooterMotorIDs.Motor2ID);
-        m2.setNeutralMode(NeutralMode.Brake);
-        m2.setInverted(true);
+        neo = new CANSparkMax(Constants.Shooter.neoID, CANSparkMaxLowLevel.MotorType.kBrushless);
         neo.setIdleMode(CANSparkMax.IdleMode.kCoast);
 
+        m1 = new WPI_TalonSRX(Constants.Shooter.Motor1ID);
+        m1.setNeutralMode(NeutralMode.Brake);
+        m1.setInverted(false);
+
+        m2 = new WPI_TalonSRX(Constants.Shooter.Motor2ID);
+        m2.setNeutralMode(NeutralMode.Brake);
+        m2.setInverted(true);
 
         neoSpeed = 0;
         falconSpeed = 0;
-        //m2 = new WPI_TalonSRX(3);
-
-        //mgroup = new MotorControllerGroup(m2,m1);
         mgroup = new MotorControllerGroup(m1, m2);
 
     }
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-        //neo.set(neoSpeed);
+        neo.set(neoSpeed);
         mgroup.set(falconSpeed);
     }
 
@@ -63,11 +60,11 @@ public class Shooter extends SubsystemBase {
     public void simulationPeriodic() {
         // This method will be called once per scheduler run during simulation
     }
-    public void neoShooter(double speed) {
-        neo.set(speed);
+    public void setNeoSpeed(double speed) {
+        neoSpeed = speed;
     }
 
-    public void activateShooter(double speed) {
+    public void setFalconSpeed(double speed) {
         falconSpeed = speed;
     }
 }

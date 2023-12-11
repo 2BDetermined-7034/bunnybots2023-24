@@ -24,6 +24,6 @@ public class AbortNeo extends CommandBase {
     @Override
 
     public void execute() {
-        subsystem.neoShooter(0);
+        subsystem.setNeoSpeed(0);
     }
 }

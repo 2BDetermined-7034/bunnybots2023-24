@@ -18,6 +18,6 @@ public class ShooterCMDNeo extends CommandBase {
 
     public void execute() {
         //subsystem.neoShooter(SmartDashboard.getNumber("Shooter Speed Neo", 0.25));
-        subsystem.neoShooter(0);
+        subsystem.setNeoSpeed(0);
     }
 }

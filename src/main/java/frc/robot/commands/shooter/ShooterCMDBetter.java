@@ -18,12 +18,12 @@ public class ShooterCMDBetter extends CommandBase {
     @Override
 
     public void execute() {
-        subsystem.activateShooter(SmartDashboard.getNumber("Shooter Speed Falcon", 0));
-        subsystem.neoShooter(SmartDashboard.getNumber("Shooter Speed Neo", 0));
+        subsystem.setFalconSpeed(SmartDashboard.getNumber("Shooter Speed Falcon", 0));
+        subsystem.setNeoSpeed(SmartDashboard.getNumber("Shooter Speed Neo", 0));
     }
 
     public void end(boolean interrupted) {
-        subsystem.activateShooter(0);
-        subsystem.neoShooter(0);
+        subsystem.setFalconSpeed(0);
+        subsystem.setNeoSpeed(0);
     }
 }

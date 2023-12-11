@@ -17,10 +17,10 @@ public class ShooterCMDFalcon extends CommandBase {
     @Override
 
     public void execute() {
-        subsystem.activateShooter(SmartDashboard.getNumber("Shooter Speed Falcon", 0));
+        subsystem.setFalconSpeed(SmartDashboard.getNumber("Shooter Speed Falcon", 0));
     }
 
     public void end(boolean interrupted) {
-        subsystem.activateShooter(0);
+        subsystem.setFalconSpeed(0);
     }
 }
