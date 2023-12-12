@@ -4,16 +4,22 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.Constants.OperatorConstants;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.ControllerDrive;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.commands.indexer.*;
 import frc.robot.commands.shooter.*;
 import frc.robot.commands.intake.*;
+import frc.robot.subsystems.SwerveSubsystem;
+
+import java.io.IOException;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -25,21 +31,29 @@ public class RobotContainer {
     // The robot's subsystems and commands are defined here...
 
     // Replace with CommandPS4Controller or CommandJoystick if needed
-    private final CommandXboxController driverController =
+    public final CommandXboxController driverController =
             new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
-    private Shooter shooter = new Shooter();
-    private ShooterCMDBest shootCommand = new ShooterCMDBest(shooter);
+    // Subsystems
+    public Shooter shooter = new Shooter();
+    public Intake intake = new Intake();
+    public Indexer indexerSubsystem = new Indexer();
+    public SwerveSubsystem swerveSubsystem;
 
-    private Intake intake = new Intake();
-    //private SpinIntake intakeCommand = new SpinIntake(intakeSubsystem);
-
-    private Indexer indexerSubsystem = new Indexer();
-    private IndexerCommand indexerCommand = new IndexerCommand(indexerSubsystem);
-
+    // Commands
+    private ShooterCMDBest shootCommand = new ShooterCMDBest(shooter, indexerSubsystem);
+    public IndexerCommand indexerCommand = new IndexerCommand(indexerSubsystem);
+    public ControllerDrive driveCommand = new ControllerDrive(swerveSubsystem, () -> MathUtil.applyDeadband(driverController.getLeftX(), 0.1), () -> MathUtil.applyDeadband(driverController.getLeftY(), 0.1), () -> MathUtil.applyDeadband(driverController.getRawAxis(4), 0.1), true);
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
+        try {
+            swerveSubsystem = new SwerveSubsystem();
+        } catch(IOException e) {
+            DriverStation.reportError(e.getMessage(), true);
+        }
+
+        swerveSubsystem.setDefaultCommand(driveCommand);
 
         //new Trigger(() -> m_driverController.getRightTriggerAxis() > 0.5).whileTrue(intakeCommand);
 
@@ -58,9 +72,13 @@ public class RobotContainer {
      */
     private void configureBindings() {
         new Trigger(driverController.rightTrigger().whileTrue(shootCommand));
+        new Trigger(() -> driverController.getRightTriggerAxis() > 0.5).whileTrue(new SpinIntake(intake, indexerSubsystem, Constants.Intake.spinMotorSpeed));
+        new Trigger(() -> driverController.getLeftTriggerAxis() > 0.5).whileTrue(new SpitIntake(intake, indexerSubsystem, Constants.Intake.spinMotorSpeed));
 
-        new Trigger(() -> driverController.getRightTriggerAxis() > 0.5).whileTrue(new SpinIntake(intake, Constants.Intake.spinMotorSpeed));
-        new Trigger(() -> driverController.getLeftTriggerAxis() > 0.5).whileTrue(new SpinIntake(intake, - Constants.Intake.spinMotorSpeed));
+        new Trigger(driverController.back()).onTrue(swerveSubsystem.runOnce(swerveSubsystem::zeroGyro));
+        new Trigger(driverController.start()).onTrue(indexerSubsystem.runOnce(indexerSubsystem::zeroCurrentObjects));
+
+
     }
 
     /**

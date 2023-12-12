@@ -115,8 +115,7 @@ public class LimeLight extends SubsystemBase implements SubsystemLogging {
         } else return gcd(b, a % b);
     }
     public double calculateAspectRatio(double thor, double tvert) {
-//        long r = gcd(thor, tvert);
-//        return (thor/r) + ":" + (tvert/r);
+
 
 
         return (thor/tvert);

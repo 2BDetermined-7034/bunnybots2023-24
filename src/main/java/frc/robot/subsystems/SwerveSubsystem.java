@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import com.pathplanner.lib.PathPlannerTrajectory;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -257,6 +258,9 @@ public class SwerveSubsystem extends SubsystemBase implements SubsystemLogging {
         return swerveDrive.swerveController.getTargetSpeeds(xInput, yInput, headingX, headingY, getHeading().getRadians());
     }
 
+    public void addTrajectory(PathPlannerTrajectory m_trajectory) {
+        field2d.getObject("traj").setTrajectory(m_trajectory);
+    }
 
     /**
      * Gets the current velocity (x, y and omega) of the robot
