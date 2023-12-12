@@ -7,6 +7,7 @@ import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import static frc.robot.Constants.Intake.*;
 
@@ -63,7 +64,9 @@ public class Intake extends SubsystemBase {
     }
 
     public void periodic(){
-        setLiftSpeed(liftpid.calculate(liftMotorEncoder.getPosition(), goalPosition));
+        //setLiftSpeed(liftpid.calculate(liftMotorEncoder.getPosition(), goalPosition));
+        setLiftSpeed(0);
+        SmartDashboard.putNumber("lifter encoder", liftMotorEncoder.getPosition());
     }
     public void setGoalPosition(IntakePosition position){
         this.goalPosition = position.getEncoderPosition();

@@ -1,4 +1,9 @@
 {
+  "location": {
+    "front": -12,
+    "left": 12
+  },
+  "absoluteEncoderOffset": 0,
   "drive": {
     "type": "sparkmax",
     "id": 7,
@@ -9,18 +14,17 @@
     "id": 8,
     "canbus": null
   },
+  "inverted": {
+    "angle": true,
+    "drive": false
+  },
+  "conversionFactor": {
+    "angle": 16.8,
+    "drive": 0.04654211339
+  },
   "encoder": {
     "type": "cancoder",
     "id": 2,
     "canbus": null
-  },
-  "inverted": {
-    "drive": true,
-    "angle": true
-  },
-  "absoluteEncoderOffset": -198.281,
-  "location": {
-    "front": -12,
-    "left": 12
   }
 }

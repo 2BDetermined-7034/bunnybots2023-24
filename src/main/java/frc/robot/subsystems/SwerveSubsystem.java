@@ -13,6 +13,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -52,6 +53,7 @@ public class SwerveSubsystem extends SubsystemBase implements SubsystemLogging {
         try {
             INSTANCE = new SwerveSubsystem();
         } catch (IOException e) {
+            DriverStation.reportError(e.getMessage(), true);
             throw new RuntimeException(e);
         }
     }

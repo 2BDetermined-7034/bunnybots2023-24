@@ -43,12 +43,13 @@ public class RobotContainer {
     // Commands
     private ShooterCMDBest shootCommand = new ShooterCMDBest(shooter, indexerSubsystem);
     public IndexerCommand indexerCommand = new IndexerCommand(indexerSubsystem);
-    public ControllerDrive driveCommand = new ControllerDrive(swerveSubsystem, () -> MathUtil.applyDeadband(driverController.getLeftX(), 0.1), () -> MathUtil.applyDeadband(driverController.getLeftY(), 0.1), () -> MathUtil.applyDeadband(driverController.getRawAxis(4), 0.1), true);
+    public ControllerDrive driveCommand;
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
         try {
             swerveSubsystem = new SwerveSubsystem();
+            driveCommand = new ControllerDrive(swerveSubsystem, () -> MathUtil.applyDeadband(driverController.getLeftX(), 0.1), () -> MathUtil.applyDeadband(driverController.getLeftY(), 0.1), () -> MathUtil.applyDeadband(driverController.getRawAxis(4), 0.1), true);
         } catch(IOException e) {
             DriverStation.reportError(e.getMessage(), true);
         }

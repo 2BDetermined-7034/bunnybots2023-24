@@ -17,16 +17,16 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
   }
   public static class Shooter {
-    public static final int neoID = 3;
-    public static final int Motor1ID = 2;
-    public static final int Motor2ID = 3;
+    public static final int neoID = 1;
+    public static final int Motor1ID = 1;
+    public static final int Motor2ID = 2;
     public static final double falconSpeed = 0.25;
     public static final double neoSpeed = 0.25;
   }
   public static class Intake {
-    public static final int liftMotorID = 8;
-    public static final int spinMotor1ID = 9;
-    public static final int spinMotor2ID = 10;
+    public static final int liftMotorID = 2;
+    public static final int spinMotor1ID = 13;
+    public static final int spinMotor2ID = 14;
 
     public static final double liftMotorSpeed = 1.0;
     public static final double spinMotorSpeed = 1.0;
@@ -41,8 +41,8 @@ public static class VectorConstants{
     public static double unaliveZone = .75;
 }
   public static class IndexerConstants {
-    public static final int frontMotorID = 5;
-    public static final int backMotorID = 20;
+    public static final int frontMotorID = 3;
+    public static final int backMotorID = 8;
     public static final int digitalInputFront =1;
     public static final int digitalInputBack = 2;
     public static final int maxBalls = 5;
