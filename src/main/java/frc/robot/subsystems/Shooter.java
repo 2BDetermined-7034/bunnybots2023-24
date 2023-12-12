@@ -21,8 +21,8 @@ import frc.robot.Constants;
  */
 public class Shooter extends SubsystemBase {
     public CANSparkMax neo;
-    public WPI_TalonSRX m1;
-    public WPI_TalonSRX m2;
+    public WPI_TalonSRX talon1;
+    public WPI_TalonSRX talon2;
     public MotorControllerGroup mgroup;
     private double neoSpeed;
     private double falconSpeed;
@@ -36,19 +36,20 @@ public class Shooter extends SubsystemBase {
         neo = new CANSparkMax(Constants.Shooter.neoID, CANSparkMaxLowLevel.MotorType.kBrushless);
         neo.setIdleMode(CANSparkMax.IdleMode.kCoast);
 
-        m1 = new WPI_TalonSRX(Constants.Shooter.Motor1ID);
-        m1.setNeutralMode(NeutralMode.Brake);
-        m1.setInverted(false);
+        talon1 = new WPI_TalonSRX(Constants.Shooter.Motor1ID);
+        talon1.setNeutralMode(NeutralMode.Brake);
+        talon1.setInverted(false);
 
-        m2 = new WPI_TalonSRX(Constants.Shooter.Motor2ID);
-        m2.setNeutralMode(NeutralMode.Brake);
-        m2.setInverted(true);
+        talon2 = new WPI_TalonSRX(Constants.Shooter.Motor2ID);
+        talon2.setNeutralMode(NeutralMode.Brake);
+        talon2.setInverted(true);
 
         neoSpeed = 0;
         falconSpeed = 0;
-        mgroup = new MotorControllerGroup(m1, m2);
+        mgroup = new MotorControllerGroup(talon1, talon2);
 
     }
+    
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
@@ -66,5 +67,9 @@ public class Shooter extends SubsystemBase {
 
     public void setFalconSpeed(double speed) {
         falconSpeed = speed;
+    }
+    public double getActualFalconVoltage(){
+        // TODO: Ensure motorOutputVoltage() returns actual and not expected velocity.
+        return talon1.getMotorOutputVoltage();
     }
 }

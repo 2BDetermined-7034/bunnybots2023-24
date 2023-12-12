@@ -6,12 +6,16 @@ import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 
 import static frc.robot.Constants.Intake.*;
 
 public class Intake extends SubsystemBase {
     CANSparkMax liftMotor;
-    CANSparkMax spinMotor;
+    CANSparkMax spinMotor1;
+    CANSparkMax spinMotor2;
+
+    MotorControllerGroup mGroup;
 
     RelativeEncoder liftMotorEncoder;
     PIDController liftpid;
@@ -30,9 +34,20 @@ public class Intake extends SubsystemBase {
             return encoderPosition;
         }
     }
+
     public Intake() {
         liftMotor = new CANSparkMax(liftMotorID, CANSparkMaxLowLevel.MotorType.kBrushless);
-        spinMotor = new CANSparkMax(spinMotorID, CANSparkMaxLowLevel.MotorType.kBrushless);
+
+        spinMotor1 = new CANSparkMax(spinMotor1ID, CANSparkMaxLowLevel.MotorType.kBrushless);
+        spinMotor1.setInverted(false);
+        spinMotor1.setIdleMode(CANSparkMax.IdleMode.kBrake);
+
+        spinMotor2 = new CANSparkMax(spinMotor2ID, CANSparkMaxLowLevel.MotorType.kBrushless);
+        spinMotor2.setInverted(true);
+        spinMotor2.setIdleMode(CANSparkMax.IdleMode.kBrake);
+
+        mGroup = new MotorControllerGroup(spinMotor1, spinMotor2);
+
         //TODO set encoder conversion factor
         liftMotorEncoder = liftMotor.getEncoder();
         liftpid = new PIDController(0,0,0);
@@ -44,7 +59,7 @@ public class Intake extends SubsystemBase {
     }
 
     public void setSpinSpeed(double speed) {
-        spinMotor.set(speed);
+        mGroup.set(speed);
     }
 
     public void periodic(){

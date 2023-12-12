@@ -4,7 +4,6 @@
 
 package frc.robot.commands.indexer;
 
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Indexer;
 
@@ -30,7 +29,7 @@ public class IndexerCommand extends CommandBase {
   public void execute() {
     indexer.run(0.34);
     indexer.updateAmount();
-    if (indexer.ObjectsTaken >= 4) {
+    if (indexer.objectsTaken >= 4) {
       indexer.run(0);
     }
   }

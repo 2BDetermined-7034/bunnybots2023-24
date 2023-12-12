@@ -3,19 +3,26 @@ package frc.robot.commands.shooter;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Indexer;
 
 public class ShooterCMDBest extends CommandBase {
     public Shooter subsystem;
+    public Indexer indexer;
 
-    public ShooterCMDBest(Shooter sub) {
+    public ShooterCMDBest(Shooter sub, Indexer indexer) {
         subsystem = sub;
-        addRequirements(subsystem);
+        this.indexer = indexer;
+        addRequirements(subsystem, this.indexer);
     }
     @Override
 
     public void execute() {
         subsystem.setFalconSpeed(Constants.Shooter.falconSpeed);
-        subsystem.setNeoSpeed(Constants.Shooter.neoSpeed);
+        // TODO: Tune the spin-up voltage
+        if(subsystem.getActualFalconVoltage() >= 3){
+            subsystem.setNeoSpeed(Constants.Shooter.neoSpeed);
+            indexer.run(1);
+        }
     }
 
     public void end(boolean interrupted) {

@@ -25,7 +25,8 @@ public final class Constants {
   }
   public static class Intake {
     public static final int liftMotorID = 8;
-    public static final int spinMotorID = 9;
+    public static final int spinMotor1ID = 9;
+    public static final int spinMotor2ID = 10;
 
     public static final double liftMotorSpeed = 1.0;
     public static final double spinMotorSpeed = 1.0;
@@ -40,9 +41,11 @@ public static class VectorConstants{
     public static double unaliveZone = .75;
 }
   public static class IndexerConstants {
-    public static final int motorID = 5;
+    public static final int frontMotorID = 5;
+    public static final int backMotorID = 20;
     public static final int digitalInputFront =1;
     public static final int digitalInputBack = 2;
+    public static final int maxBalls = 5;
   }
 
   public static class Vision {
