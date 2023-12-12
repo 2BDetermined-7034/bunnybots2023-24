@@ -30,7 +30,7 @@ import java.io.IOException;
 
 public class SwerveSubsystem extends SubsystemBase implements SubsystemLogging {
 
-    File swerveJsonDirectory = new File(Filesystem.getDeployDirectory(),"swerve/neo");
+    File swerveJsonDirectory = new File(Filesystem.getDeployDirectory(),"swerve");
     SwerveDrive swerveDrive  = new SwerveParser(swerveJsonDirectory).createSwerveDrive(14);
     private static final AHRS m_navx = new AHRS(SPI.Port.kMXP, (byte) 200);
 
