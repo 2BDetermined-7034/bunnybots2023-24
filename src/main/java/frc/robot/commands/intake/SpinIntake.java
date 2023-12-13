@@ -26,14 +26,15 @@ public class SpinIntake extends CommandBase {
     @Override
     public void execute() {
         intake.setSpinSpeed(speed);
-        if(indexer.getCurrentObjects() > Constants.IndexerConstants.maxBalls) {
-            indexer.run(1);
+        if(indexer.getCurrentObjects() < Constants.IndexerConstants.maxBalls) {
+            indexer.run(0.25);
         }
     }
 
     @Override
     public void end(boolean interrupted) {
-        //intake.setSpinSpeed(0);
+        intake.setSpinSpeed(0);
         intake.setGoalPosition(Intake.IntakePosition.RAISED);
+        indexer.run(0);
     }
 }

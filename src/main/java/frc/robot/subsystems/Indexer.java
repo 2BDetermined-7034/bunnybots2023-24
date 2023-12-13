@@ -5,10 +5,11 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.revrobotics.CANSparkMax;
 import frc.robot.Constants;
+import frc.robot.SubsystemLogging;
 
 import static frc.robot.Constants.IndexerConstants.*;
 
-public class Indexer extends SubsystemBase {
+public class Indexer extends SubsystemBase implements SubsystemLogging {
     public int objectsTaken = 0;
     DigitalInput entrance;
     DigitalInput exit;
@@ -23,9 +24,11 @@ public class Indexer extends SubsystemBase {
 
         frontMotor = new CANSparkMax(frontMotorID, CANSparkMaxLowLevel.MotorType.kBrushless);
         frontMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        frontMotor.setInverted(true);
 
         backMotor = new CANSparkMax(backMotorID, CANSparkMaxLowLevel.MotorType.kBrushless);
         backMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        backMotor.setInverted(true);
     }
     /**Indexer function:<p>
      * Updates the (theoretical) amount of balls in the
@@ -83,9 +86,16 @@ public class Indexer extends SubsystemBase {
     public void periodic() {
         // This method will be called once per scheduler run;
         updateAmount();
+        logger();
     }
     @Override
     public void simulationPeriodic() {
         // This method will be called once per scheduler run during simulation
+    }
+
+    public void logger() {
+        log("num balls", objectsTaken);
+        log("Sensor Bot", entrance.get());
+        log("Sensor Top", exit.get());
     }
 }

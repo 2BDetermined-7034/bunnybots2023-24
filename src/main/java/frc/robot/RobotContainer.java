@@ -18,6 +18,7 @@ import frc.robot.commands.indexer.*;
 import frc.robot.commands.shooter.*;
 import frc.robot.commands.intake.*;
 import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.utils.SubsystemLogging;
 
 import java.io.IOException;
 
@@ -27,7 +28,8 @@ import java.io.IOException;
  * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
  * subsystems, commands, and trigger mappings) should be declared here.
  */
-public class RobotContainer {
+public class RobotContainer implements SubsystemLogging
+{
     // The robot's subsystems and commands are defined here...
 
     // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -38,21 +40,19 @@ public class RobotContainer {
     public Shooter shooter = new Shooter();
     public Intake intake = new Intake();
     public Indexer indexerSubsystem = new Indexer();
-    public SwerveSubsystem swerveSubsystem;
+    public SwerveSubsystem swerveSubsystem = SwerveSubsystem.getInstance();
 
     // Commands
     private ShooterCMDBest shootCommand = new ShooterCMDBest(shooter, indexerSubsystem);
     public IndexerCommand indexerCommand = new IndexerCommand(indexerSubsystem);
-    public ControllerDrive driveCommand;
+    public ControllerDrive driveCommand = new ControllerDrive(swerveSubsystem, () -> MathUtil.applyDeadband(driverController.getLeftX(), 0.1), () -> MathUtil.applyDeadband(driverController.getLeftY(), 0.1), () -> MathUtil.applyDeadband(driverController.getRightX(), 0.1), false);
+
+    //public ControllerDrive driveCommand = new ControllerDrive(swerveSubsystem, () -> 0, () -> 0, () -> 0, false);
+
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
-        try {
-            swerveSubsystem = new SwerveSubsystem();
-            driveCommand = new ControllerDrive(swerveSubsystem, () -> MathUtil.applyDeadband(driverController.getLeftX(), 0.1), () -> MathUtil.applyDeadband(driverController.getLeftY(), 0.1), () -> MathUtil.applyDeadband(driverController.getRawAxis(4), 0.1), true);
-        } catch(IOException e) {
-            DriverStation.reportError(e.getMessage(), true);
-        }
+
 
         swerveSubsystem.setDefaultCommand(driveCommand);
 
@@ -72,7 +72,7 @@ public class RobotContainer {
      * joysticks}.
      */
     private void configureBindings() {
-        new Trigger(driverController.rightTrigger().whileTrue(shootCommand));
+        new Trigger(driverController.a().whileTrue(shootCommand));
         new Trigger(() -> driverController.getRightTriggerAxis() > 0.5).whileTrue(new SpinIntake(intake, indexerSubsystem, Constants.Intake.spinMotorSpeed));
         new Trigger(() -> driverController.getLeftTriggerAxis() > 0.5).whileTrue(new SpitIntake(intake, indexerSubsystem, Constants.Intake.spinMotorSpeed));
 

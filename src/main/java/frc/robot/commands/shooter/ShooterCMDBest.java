@@ -19,14 +19,14 @@ public class ShooterCMDBest extends CommandBase {
     public void execute() {
         subsystem.setFalconSpeed(Constants.Shooter.falconSpeed);
         // TODO: Tune the spin-up voltage
-        if(subsystem.getActualFalconVoltage() >= 3){
+
             subsystem.setNeoSpeed(Constants.Shooter.neoSpeed);
-            indexer.run(1);
-        }
+            indexer.run(0.1);
     }
 
     public void end(boolean interrupted) {
         subsystem.setFalconSpeed(0);
         subsystem.setNeoSpeed(0);
+        indexer.run(0);
     }
 }

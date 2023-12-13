@@ -35,6 +35,7 @@ public class Shooter extends SubsystemBase {
     public Shooter() {
         neo = new CANSparkMax(Constants.Shooter.neoID, CANSparkMaxLowLevel.MotorType.kBrushless);
         neo.setIdleMode(CANSparkMax.IdleMode.kCoast);
+        neo.setInverted(false);
 
         talon1 = new WPI_TalonSRX(Constants.Shooter.Motor1ID);
         talon1.setNeutralMode(NeutralMode.Brake);
@@ -53,7 +54,7 @@ public class Shooter extends SubsystemBase {
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
-        neo.set(neoSpeed);
+        //neo.set(neoSpeed);
         mgroup.set(falconSpeed);
     }
 
@@ -62,7 +63,7 @@ public class Shooter extends SubsystemBase {
         // This method will be called once per scheduler run during simulation
     }
     public void setNeoSpeed(double speed) {
-        neoSpeed = speed;
+        neo.set(speed);
     }
 
     public void setFalconSpeed(double speed) {

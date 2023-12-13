@@ -28,6 +28,7 @@ public class ControllerDrive extends CommandBase {
     @Override
     public void execute() {
         swerveSubsystem.drive(new Translation2d(y.getAsDouble(), x.getAsDouble()), rawAxis.getAsDouble() , true, isOpenLoop);
+        //swerveSubsystem.drive(new Translation2d(0, 0), 0, true, isOpenLoop);
         // REMEMBER - X (first variable) in the translation 2D corresponds to forwards movement!
         // "positive x is torwards the bow (front) and positive y is torwards port (left)" WHYYY
         // 💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀💀

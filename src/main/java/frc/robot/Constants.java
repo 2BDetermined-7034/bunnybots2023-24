@@ -20,7 +20,7 @@ public final class Constants {
     public static final int neoID = 1;
     public static final int Motor1ID = 1;
     public static final int Motor2ID = 2;
-    public static final double falconSpeed = 0.25;
+    public static final double falconSpeed = -0.5;
     public static final double neoSpeed = 0.25;
   }
   public static class Intake {
@@ -28,12 +28,12 @@ public final class Constants {
     public static final int spinMotor1ID = 13;
     public static final int spinMotor2ID = 14;
 
-    public static final double liftMotorSpeed = 1.0;
-    public static final double spinMotorSpeed = 1.0;
+    public static final double spinMotorSpeed = -0.25;
 
     //TODO encoder positions for intake
     public static final double homePosition = 0;
-    public static final double activePosition = 90;
+    public static final double activePosition = -20;
+    public static final double positionTolerance = 5;
 
   }
 public static class VectorConstants{
@@ -43,8 +43,8 @@ public static class VectorConstants{
   public static class IndexerConstants {
     public static final int frontMotorID = 3;
     public static final int backMotorID = 8;
-    public static final int digitalInputFront =1;
-    public static final int digitalInputBack = 2;
+    public static final int digitalInputFront = 0;
+    public static final int digitalInputBack = 1;
     public static final int maxBalls = 5;
   }
 

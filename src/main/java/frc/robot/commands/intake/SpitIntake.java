@@ -23,7 +23,7 @@ public class SpitIntake extends CommandBase {
     @Override
     public void execute() {
         intake.setSpinSpeed(-speed);
-        indexer.spitOut(1);
+        indexer.spitOut(0.25);
     }
 
     @Override
