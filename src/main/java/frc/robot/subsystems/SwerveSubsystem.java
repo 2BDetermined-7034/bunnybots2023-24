@@ -101,6 +101,7 @@ public class SwerveSubsystem extends SubsystemBase implements SubsystemLogging {
 //        SmartDashboard.putNumber("Fieldo", swerveDrive.getFieldVelocity().omegaRadiansPerSecond);
 
 //        swerveDrive.updateOdometry();
+        logger();
     }
 
     public void drive(Translation2d translation, double rotation, boolean fieldRelative, boolean isOpenLoop)
@@ -304,6 +305,7 @@ public class SwerveSubsystem extends SubsystemBase implements SubsystemLogging {
         log("Current Module Positions", swerveDrive.getModulePositions());
         log("Field Velocity", getChassisSpeeds());
         log("Robot Velocity", getRobotVelocity());
+        log("SwerveModuleSstates", swerveDrive.getStates());
     }
 
 

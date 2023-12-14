@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
-import frc.robot.SubsystemLogging;
+import frc.robot.utils.SubsystemLogging;
 
 import static frc.robot.Constants.Intake.*;
 
@@ -53,7 +53,7 @@ public class Intake extends SubsystemBase implements SubsystemLogging {
 
         //TODO set encoder conversion factor
         liftMotorEncoder = liftMotor.getEncoder();
-        liftpid = new PIDController(0.01,0,0);
+        liftpid = new PIDController(0.012,0,0);
         liftpid.setTolerance(positionTolerance);
         liftMotorEncoder.setPosition(homePosition);
     }

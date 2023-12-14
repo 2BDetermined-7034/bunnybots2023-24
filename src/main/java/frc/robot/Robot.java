@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.utils.SubsystemLogging;
 import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
@@ -23,7 +24,7 @@ import java.io.IOException;
  * the package after creating this project, you must also update the build.gradle file in the
  * project.
  */
-public class Robot extends LoggedRobot {
+public class Robot extends LoggedRobot implements SubsystemLogging {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
@@ -68,6 +69,8 @@ public class Robot extends LoggedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+
+    Logger.getInstance().recordOutput(String.format("%s/%s", this.getClass().getName(), "A Button Pressed"), m_robotContainer.driverController.a().getAsBoolean());
   }
 
   /** This function is called once each time the robot enters Disabled mode. */

@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 //import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -49,13 +50,16 @@ public class Shooter extends SubsystemBase {
         falconSpeed = 0;
         mgroup = new MotorControllerGroup(talon1, talon2);
 
+        SmartDashboard.setDefaultNumber("ShooterSpeed", 0);
+
     }
     
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
         //neo.set(neoSpeed);
-        mgroup.set(falconSpeed);
+        //mgroup.set(falconSpeed);
+        mgroup.set(SmartDashboard.getNumber("ShooterSpeed", 0));
     }
 
     @Override

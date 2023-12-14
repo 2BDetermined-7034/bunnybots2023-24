@@ -21,7 +21,7 @@ public class ShooterCMDBest extends CommandBase {
         // TODO: Tune the spin-up voltage
 
             subsystem.setNeoSpeed(Constants.Shooter.neoSpeed);
-            indexer.run(0.1);
+            indexer.run(0.3);
     }
 
     public void end(boolean interrupted) {

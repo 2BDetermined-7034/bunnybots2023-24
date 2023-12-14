@@ -52,7 +52,9 @@ public class LimeLight extends SubsystemBase implements SubsystemLogging {
         NetworkTable limeLightTable = NetworkTableInstance.getDefault().getTable("limelight");
 
 //        distanceCalculator = new Distance(9.0, Constants.Vision.distanceScale, 2.0, Math.toRadians(frc.robot.Constants.Constants.Vision.limeLightHorizontalFOV), Math.toRadians(frc.robot.Constants.Constants.Vision.limeLightVerticalFOV));
-        
+
+
+        //Rationally interpolate an equation between the below vertices such that you receive a function distance(height)
         distanceCalculator.points = new Vector2[2];
         distanceCalculator.points[0] = new Vector2(15.785, 57.5);
         distanceCalculator.points[1] = new Vector2(6.6, 114.0);
