@@ -45,9 +45,9 @@ public class RobotContainer implements SubsystemLogging
     // Commands
     private ShooterCMDBest shootCommand = new ShooterCMDBest(shooter, indexerSubsystem);
     public IndexerCommand indexerCommand = new IndexerCommand(indexerSubsystem);
-    public ControllerDrive driveCommand = new ControllerDrive(swerveSubsystem, () -> MathUtil.applyDeadband(driverController.getLeftX(), 0.1), () -> MathUtil.applyDeadband(driverController.getLeftY(), 0.1), () -> MathUtil.applyDeadband(driverController.getRightX(), 0.1), false);
+    public ControllerDrive driveCommand = new ControllerDrive(swerveSubsystem, () -> MathUtil.applyDeadband(driverController.getLeftX(), 0.1) * 10, () -> MathUtil.applyDeadband(driverController.getLeftY(), 0.1) * 10, () -> MathUtil.applyDeadband(driverController.getRightX(), 0.1) * 7, false);
 
-    //public ControllerDrive driveCommand = new ControllerDrive(swerveSubsystem, () -> 0, () -> 0, () -> 0, false);
+//    public ControllerDrive driveCommand = new ControllerDrive(swerveSubsystem, () -> 0, () -> 0, () -> 0, false);
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -78,6 +78,9 @@ public class RobotContainer implements SubsystemLogging
 
         new Trigger(driverController.back()).onTrue(swerveSubsystem.runOnce(swerveSubsystem::zeroGyro));
         new Trigger(driverController.start()).onTrue(indexerSubsystem.runOnce(indexerSubsystem::zeroCurrentObjects));
+        new Trigger(driverController.povUp()).onTrue(new RaiseIntake(intake, Intake.IntakePosition.RAISED));
+        new Trigger(driverController.povDown()).onTrue(new RaiseIntake(intake, Intake.IntakePosition.LOWERED));
+
 
 
     }

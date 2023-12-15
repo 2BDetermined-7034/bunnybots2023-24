@@ -100,7 +100,7 @@ public class SwerveSubsystem extends SubsystemBase implements SubsystemLogging {
 //
 //        SmartDashboard.putNumber("Fieldo", swerveDrive.getFieldVelocity().omegaRadiansPerSecond);
 
-//        swerveDrive.updateOdometry();
+        swerveDrive.updateOdometry();
         logger();
     }
 
@@ -306,6 +306,7 @@ public class SwerveSubsystem extends SubsystemBase implements SubsystemLogging {
         log("Field Velocity", getChassisSpeeds());
         log("Robot Velocity", getRobotVelocity());
         log("SwerveModuleSstates", swerveDrive.getStates());
+        log("IMU Yaw", swerveDrive.getYaw().getDegrees());
     }
 
 

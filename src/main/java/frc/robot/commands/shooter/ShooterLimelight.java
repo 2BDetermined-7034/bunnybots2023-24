@@ -3,14 +3,12 @@ package frc.robot.commands.shooter;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.simulation.DoubleSolenoidSim;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.LimeLight;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwerveSubsystem;
-import frc.robot.utils.Distance;
 
 import java.util.function.DoubleSupplier;
 
@@ -68,7 +66,7 @@ public class ShooterLimelight extends CommandBase {
 
             subsystem.setFalconSpeed(Constants.Shooter.falconSpeed);
             // TODO: Tune the spin-up voltage
-            if(subsystem.getActualFalconVoltage() >= 3){
+            if(subsystem.getActualFalconSpeed() >= 3){
                 subsystem.setNeoSpeed(Constants.Shooter.neoSpeed);
                 indexer.run(1);
             }
