@@ -11,7 +11,7 @@ import frc.robot.utils.SubsystemLogging;
 import frc.robot.utils.Vector2;
 
 public class ShooterCMDBest extends CommandBase implements SubsystemLogging {
-    public Shooter subsystem;
+    public Shooter shooter;
     public Indexer indexer;
     Lagrange interp = new Lagrange();
     LimeLight limelight;
@@ -19,9 +19,9 @@ public class ShooterCMDBest extends CommandBase implements SubsystemLogging {
     public Timer timer = new Timer();
 
     public ShooterCMDBest(Shooter sub, Indexer indexer) {
-        subsystem = sub;
+        shooter = sub;
         this.indexer = indexer;
-        addRequirements(subsystem, this.indexer);
+        addRequirements(shooter, this.indexer);
         interp.vertices = new Vector2[3];
 
         interp.vertices[0] = new Vector2(5.0, 0.7);
@@ -36,14 +36,15 @@ public class ShooterCMDBest extends CommandBase implements SubsystemLogging {
         //subsystem.setFalconSpeed(Constants.Shooter.falconSpeed);
         //SmartDashboard.getNumber("ShooterSpeed", 0)
         double test_power = 10.0;
-        subsystem.setFalconSpeed(-interp.get(test_power));
+        shooter.setFalconSpeed(-interp.get(test_power));
         log("Target Power", interp.get(test_power));
+        shooter.setNeoSpeed(0);
         // TODO: Tune the spin-up voltage
-        if(subsystem.getActualFalconSpeed() >= Constants.Shooter.shooterRPSCutoff * Math.abs(interp.get(test_power)) && !timer.hasElapsed(0.2)) {
-            subsystem.setNeoSpeed(Constants.Shooter.neoSpeed);
+        if(shooter.getActualFalconSpeed() >= Constants.Shooter.shooterRPSCutoff * Math.abs(interp.get(test_power)) && !timer.hasElapsed(0.2)) {
+            shooter.setNeoSpeed(Constants.Shooter.neoSpeed);
             indexer.run(0.3);
             timer.start();
-            log(" Falcon Voltage", subsystem.getActualFalconSpeed());
+            log(" Falcon Voltage", shooter.getActualFalconSpeed());
         }
     }
 
@@ -57,7 +58,7 @@ public class ShooterCMDBest extends CommandBase implements SubsystemLogging {
         timer.stop();
         timer.reset();
         //subsystem.setFalconSpeed(0);
-        subsystem.setNeoSpeed(0);
+        shooter.setNeoSpeed(0);
         indexer.run(0);
     }
 }

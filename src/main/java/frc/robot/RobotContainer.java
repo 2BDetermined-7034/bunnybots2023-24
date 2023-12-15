@@ -74,7 +74,7 @@ public class RobotContainer implements SubsystemLogging
      */
     private void configureBindings() {
         new Trigger(driverController.a().whileTrue(shootCommand));
-        new Trigger(driverController.a().whileFalse(new InstantCommand(() -> shooter.setFalconSpeed(0))));
+        new Trigger(driverController.a().whileFalse(new InstantCommand(() -> {shooter.setFalconSpeed(0); shooter.setNeoSpeed(0);})));
 
         new Trigger(() -> driverController.getRightTriggerAxis() > 0.5).whileTrue(new SpinIntake(intake, indexerSubsystem, Constants.Intake.spinMotorSpeed));
         new Trigger(() -> driverController.getLeftTriggerAxis() > 0.5).whileTrue(new SpitIntake(intake, indexerSubsystem, Constants.Intake.spinMotorSpeed));
