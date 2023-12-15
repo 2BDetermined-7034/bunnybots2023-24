@@ -45,6 +45,7 @@ public class ShooterCMDBest extends CommandBase implements SubsystemLogging {
             indexer.run(0.3);
             timer.start();
             log(" Falcon Voltage", shooter.getActualFalconSpeed());
+            log("Timer", timer.get());
         }
     }
 

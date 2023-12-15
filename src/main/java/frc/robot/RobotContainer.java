@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import frc.robot.Constants.OperatorConstants;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -73,7 +74,7 @@ public class RobotContainer implements SubsystemLogging
      * joysticks}.
      */
     private void configureBindings() {
-        new Trigger(driverController.a().whileTrue(shootCommand));
+        new Trigger(driverController.a().whileTrue(new RepeatCommand(shootCommand)));
         new Trigger(driverController.a().whileFalse(new InstantCommand(() -> {shooter.setFalconSpeed(0); shooter.setNeoSpeed(0);})));
 
         new Trigger(() -> driverController.getRightTriggerAxis() > 0.5).whileTrue(new SpinIntake(intake, indexerSubsystem, Constants.Intake.spinMotorSpeed));
