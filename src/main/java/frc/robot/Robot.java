@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.LimeLight;
 import frc.robot.utils.SubsystemLogging;
 import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.LoggedRobot;
@@ -28,6 +29,7 @@ public class Robot extends LoggedRobot implements SubsystemLogging {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
+  private LimeLight limelight = new LimeLight();
 
   /**
    * This function is run when the robot is first started up and should be used for any

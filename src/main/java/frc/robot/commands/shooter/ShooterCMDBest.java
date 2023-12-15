@@ -1,27 +1,27 @@
 package frc.robot.commands.shooter;
 
-import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.LimeLight;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Indexer;
 import frc.robot.utils.Lagrange;
+import frc.robot.utils.LagrangeQuadratic;
 import frc.robot.utils.SubsystemLogging;
 import frc.robot.utils.Vector2;
 
 public class ShooterCMDBest extends CommandBase implements SubsystemLogging {
-    public Shooter shooter;
+    public Shooter subsystem;
     public Indexer indexer;
     Lagrange interp = new Lagrange();
     LimeLight limelight;
 
-    public Timer timer = new Timer();
-
-    public ShooterCMDBest(Shooter sub, Indexer indexer) {
-        shooter = sub;
+    public ShooterCMDBest(Shooter sub, Indexer indexer, LimeLight limeLight) {
+        subsystem = sub;
+        this.limelight = limeLight;
         this.indexer = indexer;
-        addRequirements(shooter, this.indexer);
+        addRequirements(subsystem, this.indexer);
         interp.vertices = new Vector2[3];
 
         interp.vertices[0] = new Vector2(5.0, 0.7);
@@ -36,35 +36,19 @@ public class ShooterCMDBest extends CommandBase implements SubsystemLogging {
         //subsystem.setFalconSpeed(Constants.Shooter.falconSpeed);
         //SmartDashboard.getNumber("ShooterSpeed", 0)
         double test_power = 10.0;
-        shooter.setFalconSpeed(-interp.get(test_power));
+        subsystem.setFalconSpeed(-interp.get(test_power));
         log("Target Power", interp.get(test_power));
-        shooter.setNeoSpeed(0);
-        indexer.run(0);
         // TODO: Tune the spin-up voltage
-        if(shooter.getActualFalconSpeed() >= Constants.Shooter.shooterRPSCutoff * Math.abs(interp.get(test_power)) && !timer.hasElapsed(0.2)) {
-            shooter.setNeoSpeed(Constants.Shooter.neoSpeed);
+        if(subsystem.getActualFalconSpeed() >= Constants.Shooter.shooterRPSCutoff * Math.abs(interp.get(test_power))) {
+            subsystem.setNeoSpeed(Constants.Shooter.neoSpeed);
             indexer.run(0.3);
-            timer.start();
-            log(" Falcon Voltage", shooter.getActualFalconSpeed());
-            log("Timer", timer.get());
+            log(" Falcon Voltage", subsystem.getActualFalconSpeed());
         }
-    }
-
-    @Override
-    public boolean isFinished() {
-
-        return timer.hasElapsed(1.0);
     }
 
     public void end(boolean interrupted) {
-        timer.stop();
-        timer.reset();
-        //subsystem.setFalconSpeed(0);
-        if(interrupted) {
-            shooter.setNeoSpeed(0);
-            indexer.run(0);
-            shooter.setFalconSpeed(0);
-        }
-
+        subsystem.setFalconSpeed(0);
+        subsystem.setNeoSpeed(0);
+        indexer.run(0);
     }
 }

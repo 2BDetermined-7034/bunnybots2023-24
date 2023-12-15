@@ -13,13 +13,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ControllerDrive;
-import frc.robot.subsystems.Indexer;
-import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.*;
 import frc.robot.commands.indexer.*;
 import frc.robot.commands.shooter.*;
 import frc.robot.commands.intake.*;
-import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.utils.SubsystemLogging;
 
 import java.io.IOException;
@@ -43,9 +40,10 @@ public class RobotContainer implements SubsystemLogging
     public Intake intake = new Intake();
     public Indexer indexerSubsystem = new Indexer();
     public SwerveSubsystem swerveSubsystem = SwerveSubsystem.getInstance();
+    public LimeLight limelight = new LimeLight();
 
     // Commands
-    private ShooterCMDBest shootCommand = new ShooterCMDBest(shooter, indexerSubsystem);
+    private ShooterCMDBest shootCommand = new ShooterCMDBest(shooter, indexerSubsystem, limelight);
     public IndexerCommand indexerCommand = new IndexerCommand(indexerSubsystem);
     public ControllerDrive driveCommand = new ControllerDrive(swerveSubsystem, () -> MathUtil.applyDeadband(driverController.getLeftX(), 0.1), () -> MathUtil.applyDeadband(driverController.getLeftY(), 0.1), () -> MathUtil.applyDeadband(driverController.getRightX(), 0.1), false);
 
@@ -81,6 +79,8 @@ public class RobotContainer implements SubsystemLogging
         new Trigger(driverController.back()).onTrue(swerveSubsystem.runOnce(swerveSubsystem::zeroGyro));
         new Trigger(driverController.start()).onTrue(indexerSubsystem.runOnce(indexerSubsystem::zeroCurrentObjects));
 
+
+//        new Trigger(driverController.b()).toggleOnTrue()
 
     }
 
