@@ -39,6 +39,7 @@ public class ShooterCMDBest extends CommandBase implements SubsystemLogging {
         shooter.setFalconSpeed(-interp.get(test_power));
         log("Target Power", interp.get(test_power));
         shooter.setNeoSpeed(0);
+        indexer.run(0);
         // TODO: Tune the spin-up voltage
         if(shooter.getActualFalconSpeed() >= Constants.Shooter.shooterRPSCutoff * Math.abs(interp.get(test_power)) && !timer.hasElapsed(0.2)) {
             shooter.setNeoSpeed(Constants.Shooter.neoSpeed);
@@ -59,7 +60,11 @@ public class ShooterCMDBest extends CommandBase implements SubsystemLogging {
         timer.stop();
         timer.reset();
         //subsystem.setFalconSpeed(0);
-        shooter.setNeoSpeed(0);
-        indexer.run(0);
+        if(interrupted) {
+            shooter.setNeoSpeed(0);
+            indexer.run(0);
+            shooter.setFalconSpeed(0);
+        }
+
     }
 }
