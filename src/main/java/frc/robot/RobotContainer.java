@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Constants.OperatorConstants;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -45,9 +46,9 @@ public class RobotContainer implements SubsystemLogging
     // Commands
     private ShooterCMDBest shootCommand = new ShooterCMDBest(shooter, indexerSubsystem);
     public IndexerCommand indexerCommand = new IndexerCommand(indexerSubsystem);
-    public ControllerDrive driveCommand = new ControllerDrive(swerveSubsystem, () -> MathUtil.applyDeadband(driverController.getLeftX(), 0.1) * 10, () -> MathUtil.applyDeadband(driverController.getLeftY(), 0.1) * 10, () -> MathUtil.applyDeadband(driverController.getRightX(), 0.1) * 7, false);
+    public ControllerDrive driveCommand = new ControllerDrive(swerveSubsystem, () -> MathUtil.applyDeadband(driverController.getLeftX(), 0.1), () -> MathUtil.applyDeadband(driverController.getLeftY(), 0.1), () -> MathUtil.applyDeadband(driverController.getRightX(), 0.1), false);
 
-//    public ControllerDrive driveCommand = new ControllerDrive(swerveSubsystem, () -> 0, () -> 0, () -> 0, false);
+    //public ControllerDrive driveCommand = new ControllerDrive(swerveSubsystem, () -> 0, () -> 0, () -> 0, false);
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -73,14 +74,13 @@ public class RobotContainer implements SubsystemLogging
      */
     private void configureBindings() {
         new Trigger(driverController.a().whileTrue(shootCommand));
+        new Trigger(driverController.a().whileFalse(new InstantCommand(() -> shooter.setFalconSpeed(0))));
+
         new Trigger(() -> driverController.getRightTriggerAxis() > 0.5).whileTrue(new SpinIntake(intake, indexerSubsystem, Constants.Intake.spinMotorSpeed));
         new Trigger(() -> driverController.getLeftTriggerAxis() > 0.5).whileTrue(new SpitIntake(intake, indexerSubsystem, Constants.Intake.spinMotorSpeed));
 
         new Trigger(driverController.back()).onTrue(swerveSubsystem.runOnce(swerveSubsystem::zeroGyro));
         new Trigger(driverController.start()).onTrue(indexerSubsystem.runOnce(indexerSubsystem::zeroCurrentObjects));
-        new Trigger(driverController.povUp()).onTrue(new RaiseIntake(intake, Intake.IntakePosition.RAISED));
-        new Trigger(driverController.povDown()).onTrue(new RaiseIntake(intake, Intake.IntakePosition.LOWERED));
-
 
 
     }

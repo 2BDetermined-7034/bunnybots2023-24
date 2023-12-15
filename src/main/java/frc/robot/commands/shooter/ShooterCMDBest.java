@@ -1,13 +1,12 @@
 package frc.robot.commands.shooter;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.LimeLight;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Indexer;
 import frc.robot.utils.Lagrange;
-import frc.robot.utils.LagrangeQuadratic;
 import frc.robot.utils.SubsystemLogging;
 import frc.robot.utils.Vector2;
 
@@ -16,6 +15,8 @@ public class ShooterCMDBest extends CommandBase implements SubsystemLogging {
     public Indexer indexer;
     Lagrange interp = new Lagrange();
     LimeLight limelight;
+
+    public Timer timer = new Timer();
 
     public ShooterCMDBest(Shooter sub, Indexer indexer) {
         subsystem = sub;
@@ -38,15 +39,24 @@ public class ShooterCMDBest extends CommandBase implements SubsystemLogging {
         subsystem.setFalconSpeed(-interp.get(test_power));
         log("Target Power", interp.get(test_power));
         // TODO: Tune the spin-up voltage
-        if(subsystem.getActualFalconSpeed() >= Constants.Shooter.shooterRPSCutoff * Math.abs(interp.get(test_power))) {
+        if(subsystem.getActualFalconSpeed() >= Constants.Shooter.shooterRPSCutoff * Math.abs(interp.get(test_power)) && !timer.hasElapsed(0.2)) {
             subsystem.setNeoSpeed(Constants.Shooter.neoSpeed);
             indexer.run(0.3);
+            timer.start();
             log(" Falcon Voltage", subsystem.getActualFalconSpeed());
         }
     }
 
+    @Override
+    public boolean isFinished() {
+
+        return timer.hasElapsed(1.0);
+    }
+
     public void end(boolean interrupted) {
-        subsystem.setFalconSpeed(0);
+        timer.stop();
+        timer.reset();
+        //subsystem.setFalconSpeed(0);
         subsystem.setNeoSpeed(0);
         indexer.run(0);
     }
