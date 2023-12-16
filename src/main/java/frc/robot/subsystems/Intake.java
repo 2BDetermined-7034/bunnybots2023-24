@@ -53,7 +53,7 @@ public class Intake extends SubsystemBase implements SubsystemLogging {
 
         //TODO set encoder conversion factor
         liftMotorEncoder = liftMotor.getEncoder();
-        liftpid = new PIDController(0.3,0,0);
+        liftpid = new PIDController(0.4,0,0);
         liftpid.setTolerance(positionTolerance);
         liftMotorEncoder.setPosition(homePosition);
     }

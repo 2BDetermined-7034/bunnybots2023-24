@@ -22,14 +22,14 @@ public final class Constants {
     public static final int Motor2ID = 2;
     public static final double falconSpeed = -0.5;
     public static final double neoSpeed = 0.25;
-    public static final double shooterRPSCutoff = 25;
+    public static final double shooterRPSCutoffScalar = 85;
   }
   public static class Intake {
     public static final int liftMotorID = 2;
     public static final int spinMotor1ID = 13;
     public static final int spinMotor2ID = 14;
 
-    public static final double spinMotorSpeed = -0.25;
+    public static final double spinMotorSpeed = -0.20;
 
     //TODO encoder positions for intake
     public static final double homePosition = 0;

@@ -45,6 +45,7 @@ public class RobotContainer implements SubsystemLogging
 
     // Commands
     private ShooterCMDBest shootCommand = new ShooterCMDBest(shooter, indexerSubsystem, limelight, swerveSubsystem, () -> MathUtil.applyDeadband(driverController.getLeftX(), 0.1) * 10, () -> MathUtil.applyDeadband(driverController.getLeftY(), 0.1) * 10, () -> MathUtil.applyDeadband(driverController.getRightX(), 0.1) * 7);
+    //private ShooterCMDPercent shootCommand = new ShooterCMDPercent(shooter, indexerSubsystem, limelight, swerveSubsystem, () -> MathUtil.applyDeadband(driverController.getLeftX(), 0.1) * 10, () -> MathUtil.applyDeadband(driverController.getLeftY(), 0.1) * 10, () -> MathUtil.applyDeadband(driverController.getRightX(), 0.1) * 7);
     public IndexerCommand indexerCommand = new IndexerCommand(indexerSubsystem);
     public ControllerDrive driveCommand = new ControllerDrive(swerveSubsystem, () -> MathUtil.applyDeadband(driverController.getLeftX(), 0.1) * 10, () -> MathUtil.applyDeadband(driverController.getLeftY(), 0.1) * 10, () -> MathUtil.applyDeadband(driverController.getRightX(), 0.1) * 7, false);
 
@@ -73,7 +74,7 @@ public class RobotContainer implements SubsystemLogging
      * joysticks}.
      */
     private void configureBindings() {
-        new Trigger(driverController.a().toggleOnTrue(new RepeatCommand(shootCommand)));
+        new Trigger(driverController.a().whileTrue(new RepeatCommand(shootCommand)));
         new Trigger(driverController.b().toggleOnTrue(new LimelightDrive(swerveSubsystem, limelight, () -> MathUtil.applyDeadband(driverController.getLeftX(), 0.1) * 10, () -> MathUtil.applyDeadband(driverController.getLeftY(), 0.1) * 10, () -> MathUtil.applyDeadband(driverController.getRightX(), 0.1) * 7)));
         new Trigger(driverController.a().whileFalse(new InstantCommand(() -> {shooter.setFalconSpeed(0); shooter.setNeoSpeed(0);})));
 

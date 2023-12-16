@@ -7,9 +7,9 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
+import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.LimeLight;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Indexer;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.utils.Lagrange;
 import frc.robot.utils.SubsystemLogging;
@@ -17,11 +17,10 @@ import frc.robot.utils.Vector2;
 
 import java.util.function.DoubleSupplier;
 
-public class ShooterCMDBest extends CommandBase implements SubsystemLogging {
+public class ShooterCMDPercent extends CommandBase implements SubsystemLogging {
     public Shooter subsystem;
     public Indexer indexer;
     Lagrange interp = new Lagrange();
-    Lagrange rampInterp = new Lagrange();
     LimeLight limelight;
     Timer timer;
     PIDController pid;
@@ -30,7 +29,7 @@ public class ShooterCMDBest extends CommandBase implements SubsystemLogging {
     boolean opposite;
     DoubleSupplier x,y, rot;
 
-    public ShooterCMDBest(Shooter sub, Indexer indexer, LimeLight limeLight, SwerveSubsystem swerveSubsystem, DoubleSupplier x, DoubleSupplier y, DoubleSupplier rot) {
+    public ShooterCMDPercent(Shooter sub, Indexer indexer, LimeLight limeLight, SwerveSubsystem swerveSubsystem, DoubleSupplier x, DoubleSupplier y, DoubleSupplier rot) {
         subsystem = sub;
         this.limelight = limeLight;
         this.swerveSubsystem = swerveSubsystem;
@@ -41,20 +40,14 @@ public class ShooterCMDBest extends CommandBase implements SubsystemLogging {
         addRequirements(subsystem, this.indexer, swerveSubsystem);
         interp.vertices = new Vector2[3];
 
-        interp.vertices[0] = new Vector2(17.8, 0.7);
-        interp.vertices[1] = new Vector2(9.3, 0.43);
-        interp.vertices[2] = new Vector2(5.9, 0.45);
-
-        rampInterp.vertices = new Vector2[2];
-        rampInterp.vertices[0] = new Vector2(17.8, 63);
-        rampInterp.vertices[1] = new Vector2(5.9, 80);
+        interp.vertices[0] = new Vector2(5.0, 0.7);
+        interp.vertices[1] = new Vector2(15.0, 0.57);
+        interp.vertices[2] = new Vector2(20.0, 0.6);
 
         limelight = new LimeLight();
 
         timer = new Timer();
         SmartDashboard.putNumber("Target Power", 0);
-        SmartDashboard.putNumber("Falcon Target Velocity", 0);
-
     }
 
     @Override
@@ -64,20 +57,20 @@ public class ShooterCMDBest extends CommandBase implements SubsystemLogging {
 
     @Override
     public void execute() {
+        //subsystem.setFalconSpeed(Constants.Shooter.falconSpeed);
+        //SmartDashboard.getNumber("ShooterSpeed", 0)
         double distance = limelight.getTargetDistance();
-        double power_percent = interp.get(limelight.getTargetOffsetY());
-//        double power_percent = SmartDashboard.getNumber("Target Power", 0);
-        double targetVelocity = SmartDashboard.getNumber("Falcon Target Velocity", 0);
-        double cutoff = power_percent * rampInterp.get(limelight.getTargetOffsetY());
-        log("Cutoff", cutoff);
+        double targetPower = interp.get(distance / 12.0);
+        //double targetPower = SmartDashboard.getNumber("Target Power", 0.5);
 
-        subsystem.setFalconSpeed(power_percent);
-        //subsystem.setFalconSpeed(targetPower);
+        subsystem.setFalconSpeed(targetPower);
 
         log("Distance", distance);
-        log("Target Velocity", targetVelocity);
+        log("Target Power", targetPower);
+        //log("Spinup Target", cutoff);
 
         if(limelight.isTargetAvailable()) {
+
             double tx = limelight.getTargetOffsetX();
             pid = new PIDController(0.3, 000.00, 0.00000);
             pid.setTolerance(5);
@@ -96,14 +89,14 @@ public class ShooterCMDBest extends CommandBase implements SubsystemLogging {
 
             opposite = oppositeTeam(aspectRatio, false);
 
+
             log("PID output", output);
-            log("Thing", subsystem.getActualFalconSpeed());
 
             if(opposite) {
                 /* Yippee target is found and it's not friendly fire */
                 swerveSubsystem.drive(new Translation2d(y.getAsDouble(), x.getAsDouble()), output, true, false);
 
-                if(subsystem.getActualFalconSpeed() >= Constants.Shooter.shooterRPSCutoffScalar * power_percent  && !timer.hasElapsed(0.1)) {
+                if(subsystem.getActualFalconSpeed() >= Constants.Shooter.shooterRPSCutoffScalar * Math.abs(targetPower) && !timer.hasElapsed(0.1)) {
                     timer.start();
                     subsystem.setNeoSpeed(Constants.Shooter.neoSpeed);
                     indexer.run(0.3);
@@ -111,6 +104,7 @@ public class ShooterCMDBest extends CommandBase implements SubsystemLogging {
                     indexer.run(0);
                     subsystem.setNeoSpeed(0);
                     if (timer.hasElapsed(1)) {
+
                         timer.stop();
                         timer.reset();
                     }

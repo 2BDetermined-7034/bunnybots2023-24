@@ -8,20 +8,16 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 //import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.Shooter.*;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import frc.robot.Constants;
 import frc.robot.utils.SubsystemLogging;
-
-import static frc.robot.Constants.Shooter.shooterRPSCutoff;
 
 /**
  * A subsystem, which is specifically for the shooter.
@@ -66,7 +62,6 @@ public class Shooter extends SubsystemBase implements SubsystemLogging {
         talon1.config_kP(0, 0.1);
         talon1.config_kI(0, 0);
         talon1.config_kD(0, 0);
-        talon2.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
 
         falconPIDController = new PIDController(0.05, 0, 0);
     }
@@ -94,7 +89,8 @@ public class Shooter extends SubsystemBase implements SubsystemLogging {
 
     public void setFalconTargetVelocity(double velocity){
         //falconSpeed = -MathUtil.clamp(falconPIDController.calculate(talon1.getSelectedSensorVelocity(), velocity), 0, 1);
-        talon1.set(TalonFXControlMode.Velocity, (velocity / 10.0) * 4096.0 * (14.697690442753286/9.32861328125));
+        talon1.set(TalonFXControlMode.Velocity, (velocity / 10.0) * 2048.0);
+        log("GUHHHHH", (velocity / 10.0) * 2048.0);
     }
 
     /**
@@ -103,6 +99,6 @@ public class Shooter extends SubsystemBase implements SubsystemLogging {
      */
     public double getActualFalconSpeed(){
         // TODO: Ensure motorOutputVoltage() returns actual and not expected velocity.
-        return Math.abs((talon1.getSelectedSensorVelocity() / 4096.0) * 10.0);
+        return Math.abs((talon1.getSelectedSensorVelocity(0) / 2048.0) * 10.0);
     }
 }
