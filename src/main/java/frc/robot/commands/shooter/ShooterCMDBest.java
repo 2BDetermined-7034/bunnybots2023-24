@@ -1,5 +1,6 @@
 package frc.robot.commands.shooter;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
@@ -16,6 +17,7 @@ public class ShooterCMDBest extends CommandBase implements SubsystemLogging {
     public Indexer indexer;
     Lagrange interp = new Lagrange();
     LimeLight limelight;
+    Timer timer;
 
     public ShooterCMDBest(Shooter sub, Indexer indexer, LimeLight limeLight) {
         subsystem = sub;
@@ -29,20 +31,43 @@ public class ShooterCMDBest extends CommandBase implements SubsystemLogging {
         interp.vertices[2] = new Vector2(20.0, 0.6);
 
         limelight = new LimeLight();
-    }
-    @Override
 
+        timer = new Timer();
+        SmartDashboard.putNumber("Target Power", 0);
+    }
+
+    @Override
+    public void initialize(){
+        timer.reset();
+    }
+
+    @Override
     public void execute() {
         //subsystem.setFalconSpeed(Constants.Shooter.falconSpeed);
         //SmartDashboard.getNumber("ShooterSpeed", 0)
-        double test_power = 10.0;
-        subsystem.setFalconSpeed(-interp.get(test_power));
-        log("Target Power", interp.get(test_power));
+        double distance = limelight.getTargetDistance();
+        double targetPower = interp.get(distance / 12);
+
+        //double targetPower = SmartDashboard.getNumber("Target Power", 0.5);
+
+        log("Distance", distance);
+        subsystem.setFalconSpeed(-targetPower);
+        log("Target Power", targetPower);
+        log("Spinup Target", Constants.Shooter.shooterRPSCutoff * Math.abs(targetPower));
         // TODO: Tune the spin-up voltage
-        if(subsystem.getActualFalconSpeed() >= Constants.Shooter.shooterRPSCutoff * Math.abs(interp.get(test_power))) {
+        if(subsystem.getActualFalconSpeed() >= Constants.Shooter.shooterRPSCutoff * Math.abs(targetPower) && !timer.hasElapsed(0.1)) {
+            timer.start();
             subsystem.setNeoSpeed(Constants.Shooter.neoSpeed);
             indexer.run(0.3);
             log(" Falcon Voltage", subsystem.getActualFalconSpeed());
+        } else {
+            indexer.run(0);
+            subsystem.setNeoSpeed(0);
+            if (timer.hasElapsed(1)) {
+
+                timer.stop();
+                timer.reset();
+            }
         }
     }
 
@@ -50,5 +75,7 @@ public class ShooterCMDBest extends CommandBase implements SubsystemLogging {
         subsystem.setFalconSpeed(0);
         subsystem.setNeoSpeed(0);
         indexer.run(0);
+        timer.stop();
+        timer.reset();
     }
 }

@@ -32,7 +32,8 @@ public class SwerveSubsystem extends SubsystemBase implements SubsystemLogging {
 
     File swerveJsonDirectory = new File(Filesystem.getDeployDirectory(),"swerve");
     SwerveDrive swerveDrive  = new SwerveParser(swerveJsonDirectory).createSwerveDrive(14);
-    private static final AHRS m_navx = new AHRS(SPI.Port.kMXP, (byte) 200);
+    //private static final AHRS m_navx = new AHRS(SPI.Port.kMXP, (byte) 200);
+//    private final AHRS m_navx = (AHRS) swerveDrive.swerveDriveConfiguration.imu.getIMU();
 
     private final Field2d field2d;
     private final SwerveDrivePoseEstimator estimator;
@@ -133,8 +134,8 @@ public class SwerveSubsystem extends SubsystemBase implements SubsystemLogging {
     public void zeroGyro() {
         swerveDrive.zeroGyro();
     }
-    public float getNavxYaw() { return m_navx.getYaw(); }
-    public float getNavxPitch() { return m_navx.getPitch(); }
+    public double getNavxYaw() { return swerveDrive.getYaw().getDegrees(); }
+    public double getNavxPitch() { return swerveDrive.getPitch().getDegrees(); }
     public SwerveDrivePoseEstimator getEstimator() {
         return estimator;
     }
@@ -147,8 +148,8 @@ public class SwerveSubsystem extends SubsystemBase implements SubsystemLogging {
     public Rotation2d getHeading() {
         return swerveDrive.getYaw();
     }
-    public static Rotation2d getGyroscopeRotation() {
-        return Rotation2d.fromDegrees(360 - m_navx.getYaw());
+    public Rotation2d getGyroscopeRotation() {
+        return Rotation2d.fromDegrees(360 - swerveDrive.getYaw().getDegrees());
     }
     public ChassisSpeeds getTargetSpeeds(double xInput, double yInput, Rotation2d angle)
     {

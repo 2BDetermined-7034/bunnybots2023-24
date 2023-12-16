@@ -58,7 +58,6 @@ public class Indexer extends SubsystemBase implements SubsystemLogging {
             backMotor.set(speed);
         } else {
             frontMotor.set(-speed);
-            backMotor.set(speed);
         }
     }
 

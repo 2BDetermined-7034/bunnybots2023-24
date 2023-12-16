@@ -33,8 +33,8 @@ public final class Constants {
 
     //TODO encoder positions for intake
     public static final double homePosition = 0;
-    public static final double activePosition = -20;
-    public static final double positionTolerance = 5;
+    public static final double activePosition = -0.87;
+    public static final double positionTolerance = 0.1;
 
   }
 public static class VectorConstants{

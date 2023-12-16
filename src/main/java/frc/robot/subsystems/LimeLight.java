@@ -57,7 +57,7 @@ public class LimeLight extends SubsystemBase implements SubsystemLogging {
         //Rationally interpolate an equation between the below vertices such that you receive a function distance(height)
         distanceCalculator.points = new Vector2[2];
         distanceCalculator.points[0] = new Vector2(20.0, 61.0);
-        distanceCalculator.points[1] = new Vector2(9.55, 121.0);
+        distanceCalculator.points[1] = new Vector2(6.2, 186.0);
 
         getPipeSub = limeLightTable.getIntegerTopic("getpipe").subscribe(0);
 
