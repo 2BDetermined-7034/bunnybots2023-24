@@ -7,7 +7,6 @@ package frc.robot;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -73,7 +72,6 @@ public class RobotContainer implements SubsystemLogging
         chooser.addOption("Go straight for ~1m", new AutoFactory().straight1MeterPath(swerveSubsystem));
         chooser.setDefaultOption("Do nothing", new AutoFactory().doNothing());
 
-        SmartDashboard.putData("Auto",chooser);
 
         swerveSubsystem.setDefaultCommand(driveCommand);
 
