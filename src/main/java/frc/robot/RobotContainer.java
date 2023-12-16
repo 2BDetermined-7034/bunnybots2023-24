@@ -6,15 +6,12 @@ package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.OperatorConstants;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.Auto.AutoFactory;
 import frc.robot.commands.ControllerDrive;
 import frc.robot.commands.Limelight.LimelightDrive;
 import frc.robot.subsystems.*;
@@ -24,7 +21,6 @@ import frc.robot.commands.intake.*;
 import frc.robot.utils.SubsystemLogging;
 
 import java.io.IOException;
-import java.util.function.DoubleSupplier;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -34,19 +30,11 @@ import java.util.function.DoubleSupplier;
  */
 public class RobotContainer implements SubsystemLogging
 {
-
     // The robot's subsystems and commands are defined here...
 
     // Replace with CommandPS4Controller or CommandJoystick if needed
     public final CommandXboxController driverController =
             new CommandXboxController(OperatorConstants.kDriverControllerPort);
-
-    DoubleSupplier controllerLeftX =
-            () -> MathUtil.applyDeadband(driverController.getLeftX(), 0.1) * 10;
-    DoubleSupplier controllerLeftY =
-            () -> MathUtil.applyDeadband(driverController.getLeftY(), 0.1) * 10;
-    DoubleSupplier controllerRightX =
-            () -> MathUtil.applyDeadband(driverController.getRightX(), 0.1) * 7;
 
     // Subsystems
     public Shooter shooter = new Shooter();
@@ -56,21 +44,16 @@ public class RobotContainer implements SubsystemLogging
     public LimeLight limelight = new LimeLight();
 
     // Commands
-    private ShooterCMDBest shootCommand = new ShooterCMDBest(shooter, indexerSubsystem, limelight, swerveSubsystem, controllerLeftX, controllerLeftY, controllerRightX);
+    private ShooterCMDBest shootCommand = new ShooterCMDBest(shooter, indexerSubsystem, limelight, swerveSubsystem, () -> MathUtil.applyDeadband(driverController.getLeftX(), 0.1) * 10, () -> MathUtil.applyDeadband(driverController.getLeftY(), 0.1) * 10, () -> MathUtil.applyDeadband(driverController.getRightX(), 0.1) * 7);
     //private ShooterCMDPercent shootCommand = new ShooterCMDPercent(shooter, indexerSubsystem, limelight, swerveSubsystem, () -> MathUtil.applyDeadband(driverController.getLeftX(), 0.1) * 10, () -> MathUtil.applyDeadband(driverController.getLeftY(), 0.1) * 10, () -> MathUtil.applyDeadband(driverController.getRightX(), 0.1) * 7);
     public IndexerCommand indexerCommand = new IndexerCommand(indexerSubsystem);
-    public ControllerDrive driveCommand = new ControllerDrive(swerveSubsystem, controllerLeftX, controllerLeftY, controllerRightX, false);
+    public ControllerDrive driveCommand = new ControllerDrive(swerveSubsystem, () -> MathUtil.applyDeadband(driverController.getLeftX(), 0.1) * 10, () -> MathUtil.applyDeadband(driverController.getLeftY(), 0.1) * 10, () -> MathUtil.applyDeadband(driverController.getRightX(), 0.1) * 7, false);
 
-    private final SendableChooser<Command> chooser = new SendableChooser<>();
-
-
-
+    //public ControllerDrive driveCommand = new ControllerDrive(swerveSubsystem, () -> 0, () -> 0, () -> 0, false);
 
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
-        chooser.addOption("Go straight for ~1m", new AutoFactory().straight1MeterPath(swerveSubsystem));
-        chooser.setDefaultOption("Do nothing", new AutoFactory().doNothing());
 
 
         swerveSubsystem.setDefaultCommand(driveCommand);
@@ -92,6 +75,7 @@ public class RobotContainer implements SubsystemLogging
      */
     private void configureBindings() {
         new Trigger(driverController.a().whileTrue(new RepeatCommand(shootCommand)));
+        new Trigger(driverController.b().toggleOnTrue(new LimelightDrive(swerveSubsystem, limelight, () -> MathUtil.applyDeadband(driverController.getLeftX(), 0.1) * 10, () -> MathUtil.applyDeadband(driverController.getLeftY(), 0.1) * 10, () -> MathUtil.applyDeadband(driverController.getRightX(), 0.1) * 7)));
         new Trigger(driverController.a().whileFalse(new InstantCommand(() -> {shooter.setFalconSpeed(0); shooter.setNeoSpeed(0);})));
 
         new Trigger(() -> driverController.getRightTriggerAxis() > 0.5).whileTrue(new SpinIntake(intake, indexerSubsystem, Constants.Intake.spinMotorSpeed));
@@ -105,6 +89,8 @@ public class RobotContainer implements SubsystemLogging
 
 
 
+//        new Trigger(driverController.b()).toggleOnTrue()
+
     }
 
     /**
@@ -114,7 +100,6 @@ public class RobotContainer implements SubsystemLogging
      */
     public Command getAutonomousCommand() {
         // An example command will be run in autonomous
-        return chooser.getSelected(); // Test this, if some weird stuff happens just plug the auto directly into the return
-        // Surely this isn't gonna be like girls gen and not work for no reason - Cardin at 1:22AM
+        return null;
     }
 }
