@@ -22,7 +22,7 @@ public class AutoFactory {
 
 
     public Command doNothing() {
-        return new WaitCommand(1);
+        return null; //new WaitCommand(1);
     }
 
 
