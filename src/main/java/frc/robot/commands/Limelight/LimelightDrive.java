@@ -57,7 +57,9 @@ public class LimelightDrive extends CommandBase implements SubsystemLogging {
             pid.setTolerance(5);
 
             //Second term is for keeping the robot ahead of the target to account for shooter delay
-            pid.setSetpoint(000.000 + swerve.getChassisSpeeds().omegaRadiansPerSecond * 0.001);
+//            pid.setSetpoint(000.000 + swerve.getChassisSpeeds().omegaRadiansPerSecond * 0.001);
+            pid.setSetpoint(0);
+
             double currentAngle = swerve.getAngle().getDegrees();
 
             output = -pid.calculate(tx);
@@ -84,10 +86,10 @@ public class LimelightDrive extends CommandBase implements SubsystemLogging {
         }
 
         if(opposite && limeLight.isTargetAvailable()) {
-            swerve.drive(new Translation2d(y.getAsDouble(), x.getAsDouble()), output, true, true);
+            swerve.drive(new Translation2d(y.getAsDouble(), x.getAsDouble()), output, true, false);
 
         } else {
-            swerve.drive(new Translation2d(y.getAsDouble(), x.getAsDouble()), rot.getAsDouble(), true, true);
+            swerve.drive(new Translation2d(y.getAsDouble(), x.getAsDouble()), rot.getAsDouble(), true, false);
 
         }
 

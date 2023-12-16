@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ControllerDrive;
+import frc.robot.commands.Limelight.LimelightDrive;
 import frc.robot.subsystems.*;
 import frc.robot.commands.indexer.*;
 import frc.robot.commands.shooter.*;
@@ -43,7 +44,7 @@ public class RobotContainer implements SubsystemLogging
     public LimeLight limelight = new LimeLight();
 
     // Commands
-    private ShooterCMDBest shootCommand = new ShooterCMDBest(shooter, indexerSubsystem, limelight);
+    private ShooterCMDBest shootCommand = new ShooterCMDBest(shooter, indexerSubsystem, limelight, swerveSubsystem, () -> MathUtil.applyDeadband(driverController.getLeftX(), 0.1) * 10, () -> MathUtil.applyDeadband(driverController.getLeftY(), 0.1) * 10, () -> MathUtil.applyDeadband(driverController.getRightX(), 0.1) * 7);
     public IndexerCommand indexerCommand = new IndexerCommand(indexerSubsystem);
     public ControllerDrive driveCommand = new ControllerDrive(swerveSubsystem, () -> MathUtil.applyDeadband(driverController.getLeftX(), 0.1) * 10, () -> MathUtil.applyDeadband(driverController.getLeftY(), 0.1) * 10, () -> MathUtil.applyDeadband(driverController.getRightX(), 0.1) * 7, false);
 
@@ -72,7 +73,8 @@ public class RobotContainer implements SubsystemLogging
      * joysticks}.
      */
     private void configureBindings() {
-        new Trigger(driverController.a().whileTrue(new RepeatCommand(shootCommand)));
+        new Trigger(driverController.a().toggleOnTrue(new RepeatCommand(shootCommand)));
+        new Trigger(driverController.b().toggleOnTrue(new LimelightDrive(swerveSubsystem, limelight, () -> MathUtil.applyDeadband(driverController.getLeftX(), 0.1) * 10, () -> MathUtil.applyDeadband(driverController.getLeftY(), 0.1) * 10, () -> MathUtil.applyDeadband(driverController.getRightX(), 0.1) * 7)));
         new Trigger(driverController.a().whileFalse(new InstantCommand(() -> {shooter.setFalconSpeed(0); shooter.setNeoSpeed(0);})));
 
         new Trigger(() -> driverController.getRightTriggerAxis() > 0.5).whileTrue(new SpinIntake(intake, indexerSubsystem, Constants.Intake.spinMotorSpeed));
