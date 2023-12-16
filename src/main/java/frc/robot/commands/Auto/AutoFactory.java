@@ -4,7 +4,12 @@ import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.Subsystem;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.SwerveSubsystem;
+
+
 
 public class AutoFactory {
 
@@ -16,6 +21,9 @@ public class AutoFactory {
     }
 
 
+    public Command doNothing() {
+        return new WaitCommand(1);
+    }
 
 
 }
