@@ -8,12 +8,14 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RepeatCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.OperatorConstants;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ControllerDrive;
 import frc.robot.commands.Limelight.LimelightDrive;
+import frc.robot.commands.drivebase.TimedDrive;
 import frc.robot.subsystems.*;
 import frc.robot.commands.indexer.*;
 import frc.robot.commands.shooter.*;
@@ -100,6 +102,10 @@ public class RobotContainer implements SubsystemLogging
      */
     public Command getAutonomousCommand() {
         // An example command will be run in autonomous
-        return null;
+        return new SequentialCommandGroup(
+                new TimedDrive(swerveSubsystem, () -> 0, () -> -2, () -> 0, false)
+
+        );
+
     }
 }

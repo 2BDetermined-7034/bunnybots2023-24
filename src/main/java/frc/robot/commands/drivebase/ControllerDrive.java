@@ -8,7 +8,7 @@ import swervelib.SwerveController;
 import java.util.function.DoubleSupplier;
 
 public class ControllerDrive extends CommandBase {
-    private final SwerveSubsystem swerveSubsystem;
+    protected final SwerveSubsystem swerveSubsystem;
     private final DoubleSupplier x;
     private final DoubleSupplier y;
     private final DoubleSupplier rawAxis;
